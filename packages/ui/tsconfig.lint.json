@@ -1,8 +1,9 @@
 {
-  "extends": "@workspace/typescript-config/react-library.json",
+  "extends": "@hex-ai/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },
   "include": ["src", "turbo"],
   "exclude": ["node_modules", "dist"]
 }
+

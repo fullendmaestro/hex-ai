@@ -1,10 +1,10 @@
 {
-  "extends": "@workspace/typescript-config/nextjs.json",
+  "extends": "@hex-ai/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@workspace/ui/*": ["../../packages/ui/src/*"]
+      "@hex-ai/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
       {
@@ -21,3 +21,5 @@
   ],
   "exclude": ["node_modules"]
 }
+
+

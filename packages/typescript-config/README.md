@@ -1,3 +1,4 @@
-# `@workspace/typescript-config`
+# `@hex-ai/typescript-config`
 
 Shared typescript configuration for the workspace.
+

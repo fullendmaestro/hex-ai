@@ -1,4 +1,4 @@
-import { Button } from "@workspace/ui/components/button"
+import { Button } from "@hex-ai/ui/components/button"
 
 export default function Page() {
   return (
@@ -10,3 +10,5 @@ export default function Page() {
     </div>
   )
 }
+
+

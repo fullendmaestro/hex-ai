@@ -14,7 +14,9 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@workspace/ui/lib/utils",
-    "ui": "@workspace/ui/components"
+    "utils": "@hex-ai/ui/lib/utils",
+    "ui": "@hex-ai/ui/components"
   }
 }
+
+
