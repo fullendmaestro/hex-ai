@@ -1,4 +1,5 @@
-import { Button } from "@hex-ai/ui/components/button"
+import { Button } from "@hex-ai/ui/components/button";
+import { ChatSidebar } from "@/components/chat/chat-sidebar";
 
 export default function Page() {
   return (
@@ -7,8 +8,7 @@ export default function Page() {
         <h1 className="text-2xl font-bold">Hello World</h1>
         <Button size="sm">Button</Button>
       </div>
+      <ChatSidebar defaultOpen={false} />
     </div>
-  )
+  );
 }
-
-

@@ -4,3 +4,7 @@ import { nextJsConfig } from "@hex-ai/eslint-config/next-js"
 export default nextJsConfig
 
 
+
+
+
+
