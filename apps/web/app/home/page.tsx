@@ -1,6 +1,9 @@
-"use client";
+import dynamic from "next/dynamic";
 
-import { ChatSidebar } from "@/components/chat";
+const ChatSidebar = dynamic(
+  () => import("@/components/chat").then((m) => m.ChatSidebar),
+  { ssr: false }
+);
 
 export default function Page() {
   return (
@@ -9,5 +12,3 @@ export default function Page() {
     </main>
   );
 }
-
-
