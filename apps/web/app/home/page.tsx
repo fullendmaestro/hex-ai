@@ -1,14 +1,14 @@
-import dynamic from "next/dynamic";
+"use client";
 
-const ChatSidebar = dynamic(
-  () => import("@/components/chat").then((m) => m.ChatSidebar),
-  { ssr: false }
-);
+import React from "react";
+import { ChatSidebar } from "@/components/chat";
 
 export default function Page() {
   return (
     <main className="">
-      <ChatSidebar />
+      <React.Suspense fallback={null}>
+        <ChatSidebar />
+      </React.Suspense>
     </main>
   );
 }
