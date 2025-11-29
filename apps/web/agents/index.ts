@@ -1,5 +1,4 @@
 import { AgentBuilder } from "@iqai/adk";
-import { env } from "../env";
 import { getJokeAgent } from "./sub-agents/joke-agent/agent";
 import { getWeatherAgent } from "./sub-agents/weather-agent/agent";
 
@@ -17,6 +16,8 @@ export const getRootAgent = async () => {
   const jokeAgent = getJokeAgent();
   const weatherAgent = getWeatherAgent();
 
+  const llmModel = process.env.LLM_MODEL ?? "gemini-2.5-flash";
+
   const rootAgent = AgentBuilder.create("root_agent")
     .withDescription(
       "Root agent that delegates tasks to sub-agents for telling jokes and providing weather information."
@@ -24,7 +25,7 @@ export const getRootAgent = async () => {
     .withInstruction(
       "Use the joke sub-agent for humor requests and the weather sub-agent for weather-related queries. Route user requests to the appropriate sub-agent."
     )
-    .withModel(env.LLM_MODEL)
+    .withModel(llmModel)
     .withSubAgents([jokeAgent, weatherAgent])
     .build();
 

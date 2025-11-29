@@ -11,9 +11,9 @@ import {
   sepolia,
 } from "wagmi/chains";
 
-export const config = getDefaultConfig({
+export default getDefaultConfig({
   appName: "Hex AI",
   projectId: "Null",
   chains: [mainnet, optimism, arbitrum, base, zksync, sepolia, anvil],
   ssr: false,
-});
+}) as any;
