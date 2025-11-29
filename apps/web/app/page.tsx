@@ -16,15 +16,11 @@ import {
   Zap,
   Lock,
 } from "lucide-react";
-// import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { Card, CardContent } from "@hex-ai/ui/components/card";
 
 export default function HexAILanding() {
-  // const { openConnectModal } = useConnectModal();
-
-  const openConnectModal: () => void = () => {
-    console.log("Connect Wallet Modal Opened");
-  };
+  const { openConnectModal } = useConnectModal();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0A0E27] to-[#1a1f3a]">
