@@ -1,5 +1,5 @@
 import { LlmAgent } from "@iqai/adk";
-import { env } from "../../env";
+import { env } from "../../../env";
 import { weatherTool } from "./tools";
 
 /**
@@ -12,12 +12,12 @@ import { weatherTool } from "./tools";
  * @returns A configured LlmAgent instance specialized for weather information
  */
 export const getWeatherAgent = () => {
-	const weatherAgent = new LlmAgent({
-		name: "weather_agent",
-		description: "provides weather for a given city",
-		model: env.LLM_MODEL,
-		tools: [weatherTool],
-	});
+  const weatherAgent = new LlmAgent({
+    name: "weather_agent",
+    description: "provides weather for a given city",
+    model: env.LLM_MODEL,
+    tools: [weatherTool],
+  });
 
-	return weatherAgent;
+  return weatherAgent;
 };

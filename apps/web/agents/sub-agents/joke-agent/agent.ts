@@ -1,5 +1,5 @@
 import { LlmAgent } from "@iqai/adk";
-import { env } from "../../env";
+import { env } from "../../../env";
 import { jokeTool } from "./tools";
 
 /**
@@ -12,12 +12,12 @@ import { jokeTool } from "./tools";
  * @returns A configured LlmAgent instance specialized for joke delivery
  */
 export const getJokeAgent = () => {
-	const jokeAgent = new LlmAgent({
-		name: "joke_agent",
-		description: "provides a random joke",
-		model: env.LLM_MODEL,
-		tools: [jokeTool],
-	});
+  const jokeAgent = new LlmAgent({
+    name: "joke_agent",
+    description: "provides a random joke",
+    model: env.LLM_MODEL,
+    tools: [jokeTool],
+  });
 
-	return jokeAgent;
+  return jokeAgent;
 };

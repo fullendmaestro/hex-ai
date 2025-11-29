@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@hex-ai/ui/components/scroll-area";
 import { cn } from "@hex-ai/ui/lib/utils";
-import { Copy, RotateCcw, Check, Loader2 } from "lucide-react";
+import { Copy, RotateCcw, Check, ThumbsUp, ThumbsDown } from "lucide-react";
 import type { Message } from "@/lib/schema";
 
 interface ChatMessagesProps {
@@ -142,6 +142,14 @@ function MessageControls({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleLike = () => {
+    // Static for now
+  };
+
+  const handleDislike = () => {
+    // Static for now
+  };
+
   return (
     <div
       className={cn(
@@ -183,6 +191,30 @@ function MessageControls({
           />
         </button>
       )}
+      <button
+        onClick={handleLike}
+        className="text-foreground hover:text-foreground/80 transition-all duration-200 p-0 border-0 bg-transparent cursor-pointer hover:scale-105 active:scale-105"
+        title="Like response"
+        style={{ width: "20px", height: "20px" }}
+      >
+        <ThumbsUp
+          className="w-4 h-4"
+          strokeWidth={2}
+          style={{ minWidth: "16px", minHeight: "16px" }}
+        />
+      </button>
+      <button
+        onClick={handleDislike}
+        className="text-foreground hover:text-foreground/80 transition-all duration-200 p-0 border-0 bg-transparent cursor-pointer hover:scale-105 active:scale-105"
+        title="Dislike response"
+        style={{ width: "20px", height: "20px" }}
+      >
+        <ThumbsDown
+          className="w-4 h-4"
+          strokeWidth={2}
+          style={{ minWidth: "16px", minHeight: "16px" }}
+        />
+      </button>
     </div>
   );
 }

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Button } from "@hex-ai/ui/components/button";
-import { ChatSidebar } from "@/components/chat/chat-sidebar";
 import {
   ArrowRight,
   Brain,

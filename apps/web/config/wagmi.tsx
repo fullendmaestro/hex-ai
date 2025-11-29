@@ -13,7 +13,7 @@ import {
 
 export const config = getDefaultConfig({
   appName: "Hex AI",
-  projectId: "",
+  projectId: "Null",
   chains: [mainnet, optimism, arbitrum, base, zksync, sepolia, anvil],
   ssr: false,
 });

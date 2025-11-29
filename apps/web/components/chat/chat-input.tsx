@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@hex-ai/ui/components/button";
-import { Send, Square } from "lucide-react";
+import { ArrowUp, Square } from "lucide-react";
 import { cn } from "@hex-ai/ui/lib/utils";
 import { AutoResizingTextarea } from "./auto-resizing-textarea";
 
@@ -95,12 +95,12 @@ export function ChatInput({
           >
             {inProgress ? (
               <Square
-                className="h-6 w-6"
+                className="h-5 w-5"
                 strokeWidth={1.5}
                 fill="currentColor"
               />
             ) : (
-              <Send className="h-6 w-6" strokeWidth={1.5} />
+              <ArrowUp className="h-5 w-5" strokeWidth={1.5} />
             )}
           </button>
         </div>
@@ -108,5 +108,3 @@ export function ChatInput({
     </div>
   );
 }
-
-
