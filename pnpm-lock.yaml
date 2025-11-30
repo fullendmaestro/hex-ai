@@ -477,7 +477,7 @@ importers:
         specifier: ^12.8.6
         version: 12.9.3(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       ai:
-        specifier: ^5.0.39
+        specifier: ^5.0.104
         version: 5.0.104(zod@4.1.13)
       class-variance-authority:
         specifier: ^0.7.1
