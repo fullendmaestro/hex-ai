@@ -1,7 +1,6 @@
 import { AgentBuilder } from "@iqai/adk";
 import { env } from "../env";
-import { getJokeAgent } from "./joke-agent/agent";
-import { getWeatherAgent } from "./weather-agent/agent";
+import { getExecutionAgent } from "./execution-agent/agent";
 
 /**
  * Creates and configures the root agent for the simple agent demonstration.
@@ -13,18 +12,17 @@ import { getWeatherAgent } from "./weather-agent/agent";
  *
  * @returns The fully constructed root agent instance ready to process requests
  */
-export const getRootAgent = () => {
-	const jokeAgent = getJokeAgent();
-	const weatherAgent = getWeatherAgent();
+export const getRootAgent = async () => {
+  const executionAgent = await getExecutionAgent();
 
-	return AgentBuilder.create("root_agent")
-		.withDescription(
-			"Root agent that delegates tasks to sub-agents for telling jokes and providing weather information.",
-		)
-		.withInstruction(
-			"Use the joke sub-agent for humor requests and the weather sub-agent for weather-related queries. Route user requests to the appropriate sub-agent.",
-		)
-		.withModel(env.LLM_MODEL)
-		.withSubAgents([jokeAgent, weatherAgent])
-		.build();
+  return AgentBuilder.create("root_agent")
+    .withDescription(
+      "Root agent that delegates tasks to sub-agents for executing blockchain transactions."
+    )
+    .withInstruction(
+      "Use the execution sub-agent for blockchain transaction requests. Route user requests to the appropriate sub-agent."
+    )
+    .withModel(env.LLM_MODEL)
+    .withSubAgents([executionAgent])
+    .build();
 };
