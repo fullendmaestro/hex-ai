@@ -1,0 +1,23 @@
+{
+  "name": "hono",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev-cli": "adk serve",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "clean": "rimraf dist",
+    "prebuild": "pnpm clean"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.6",
+    "@iqai/adk": "^0.5.6",
+    "dotenv": "^17.2.3",
+    "hono": "^4.8.9",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "typescript": "^5.8.3"
+  }
+}
