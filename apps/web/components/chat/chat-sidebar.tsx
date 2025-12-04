@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@hex-ai/ui/components/button";
 import { cn } from "@hex-ai/ui/lib/utils";
 import { MessageSquare, X } from "lucide-react";
-import { useChat, type Message } from "@/hooks/use-chat";
+import { useChat } from "@/hooks/useChat";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
 
@@ -16,9 +16,15 @@ interface ChatSidebarProps {
 export function ChatSidebar({
   defaultOpen = false,
   className,
-}: ChatSidebarProps) {
+}: ChatSidebarProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const { messages, input, setInput, isLoading, handleSubmit } = useChat();
+  const [input, setInput] = useState("");
+  const { messages, status, sendMessage, stop, createNewSession } = useChat();
+
+  const handleSend = (text: string) => {
+    sendMessage(text);
+    setInput(""); // Clear input after sending
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "/" && (event.metaKey || event.ctrlKey)) {
@@ -72,6 +78,15 @@ export function ChatSidebar({
           <div className="text-base font-medium">Hex AI Chat</div>
           <div className="flex items-center gap-1">
             <Button
+              onClick={createNewSession}
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 text-xs"
+              aria-label="New Session"
+            >
+              New Chat
+            </Button>
+            <Button
               onClick={() => setIsOpen(false)}
               variant="ghost"
               size="icon"
@@ -85,7 +100,7 @@ export function ChatSidebar({
 
         {/* Messages Area */}
         <div className="flex-1 overflow-hidden bg-background">
-          {messages.length === 0 && !isLoading ? (
+          {messages.length === 0 && !status ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center text-muted-foreground px-4">
                 <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
@@ -97,13 +112,8 @@ export function ChatSidebar({
             </div>
           ) : (
             <ChatMessages
-              messages={messages.map((msg) => ({
-                id: typeof msg.id === "string" ? parseInt(msg.id) || 0 : msg.id,
-                type: msg.role === "user" ? "user" : "assistant",
-                content: msg.content,
-                timestamp: new Date(),
-              }))}
-              inProgress={isLoading}
+              messages={messages}
+              inProgress={status}
               onRegenerate={() => {}}
             />
           )}
@@ -114,10 +124,10 @@ export function ChatSidebar({
           <ChatInput
             value={input}
             onChange={setInput}
-            onSend={handleSubmit}
-            onStop={() => {}}
+            onSend={handleSend}
+            onStop={stop}
             placeholder="Message Hex AI..."
-            inProgress={isLoading}
+            inProgress={status}
             disabled={false}
           />
         </div>

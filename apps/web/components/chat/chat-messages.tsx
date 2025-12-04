@@ -5,9 +5,17 @@ import { ScrollArea } from "@hex-ai/ui/components/scroll-area";
 import { cn } from "@hex-ai/ui/lib/utils";
 import { Copy, RotateCcw, Check, ThumbsUp, ThumbsDown } from "lucide-react";
 import type { Message } from "@/lib/schema";
+import type { UIMessage } from "@/types";
+import {
+  Tool,
+  ToolHeader,
+  ToolContent,
+  ToolInput,
+  ToolOutput,
+} from "./elements/tool";
 
 interface ChatMessagesProps {
-  messages: Message[];
+  messages: (Message | UIMessage)[];
   inProgress?: boolean;
   onRegenerate?: () => void;
 }
@@ -16,9 +24,14 @@ export function ChatMessages({
   messages,
   inProgress = false,
   onRegenerate,
-}: ChatMessagesProps) {
+}: ChatMessagesProps): JSX.Element {
   const scrollRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Type guard to check if message is UIMessage
+  const isUIMessage = (msg: Message | UIMessage): msg is UIMessage => {
+    return "parts" in msg && "role" in msg;
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -29,18 +42,107 @@ export function ChatMessages({
       <div ref={scrollRef} className="px-6 py-4 flex flex-col space-y-2">
         {messages.map((message, index) => {
           const isCurrentMessage = index === messages.length - 1;
-          const isLastAssistantMessage =
-            message.type === "assistant" && isCurrentMessage;
 
-          if (message.type === "user") {
+          // Handle UIMessage format with parts
+          if (isUIMessage(message)) {
+            const isLastAssistantMessage =
+              message.role === "assistant" && isCurrentMessage;
+
+            // Render user messages with styled bubble
+            if (message.role === "user") {
+              const textContent = message.parts
+                .filter((p) => p.type === "text")
+                .map((p) => (p as any).text)
+                .join("\n");
+
+              return (
+                <div
+                  key={message.id}
+                  className="flex justify-end animate-in fade-in slide-in-from-bottom-2 duration-300"
+                >
+                  <div className="rounded-2xl px-3 py-2 max-w-[80%] bg-foreground text-background">
+                    <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-words">
+                      {textContent}
+                    </p>
+                  </div>
+                </div>
+              );
+            }
+
+            // Render assistant messages with tools
             return (
               <div
                 key={message.id}
+                className="group flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300"
+              >
+                <div className="max-w-full space-y-4">
+                  {message.parts.map((part, partIndex) => {
+                    if (part.type === "text") {
+                      return (
+                        <p
+                          key={partIndex}
+                          className="text-[15px] leading-[1.5] whitespace-pre-wrap break-words text-foreground"
+                        >
+                          {part.text}
+                        </p>
+                      );
+                    }
+
+                    if (part.type === "tool") {
+                      const toolCallId = `${message.id}-${partIndex}`;
+
+                      return (
+                        <Tool defaultOpen={true} key={toolCallId}>
+                          <ToolHeader
+                            state={part.state}
+                            title={part.toolName}
+                          />
+                          <ToolContent>
+                            <ToolInput input={part.input as any} />
+                            <ToolOutput output={part.output as any} />
+                          </ToolContent>
+                        </Tool>
+                      );
+                    }
+
+                    return null;
+                  })}
+                </div>
+
+                <MessageControls
+                  message={{
+                    id:
+                      typeof message.id === "string"
+                        ? parseInt(message.id)
+                        : (message.id as number),
+                    type: message.role,
+                    content: message.parts
+                      .filter((p) => p.type === "text")
+                      .map((p) => (p as any).text)
+                      .join("\n"),
+                    timestamp: new Date(),
+                  }}
+                  isCurrentMessage={isLastAssistantMessage}
+                  onRegenerate={onRegenerate}
+                />
+              </div>
+            );
+          }
+
+          // Handle legacy Message format
+          const legacyMessage = message as Message;
+          const isLastAssistantMessage =
+            legacyMessage.type === "assistant" && isCurrentMessage;
+
+          if (legacyMessage.type === "user") {
+            return (
+              <div
+                key={legacyMessage.id}
                 className="flex justify-end animate-in fade-in slide-in-from-bottom-2 duration-300"
               >
                 <div className="rounded-2xl px-3 py-2 max-w-[80%] bg-foreground text-background">
                   <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-words">
-                    {message.content}
+                    {legacyMessage.content}
                   </p>
                 </div>
               </div>
@@ -49,17 +151,17 @@ export function ChatMessages({
 
           return (
             <div
-              key={message.id}
+              key={legacyMessage.id}
               className="group flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300"
             >
               <div className="max-w-full">
                 <p className="text-[15px] leading-[1.5] whitespace-pre-wrap break-words text-foreground">
-                  {message.content}
+                  {legacyMessage.content}
                 </p>
               </div>
 
               <MessageControls
-                message={message}
+                message={legacyMessage}
                 isCurrentMessage={isLastAssistantMessage}
                 onRegenerate={onRegenerate}
               />
