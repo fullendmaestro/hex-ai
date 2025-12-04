@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactElement } from "react";
 import { ScrollArea } from "@hex-ai/ui/components/scroll-area";
 import { cn } from "@hex-ai/ui/lib/utils";
 import { Copy, RotateCcw, Check, ThumbsUp, ThumbsDown } from "lucide-react";
@@ -14,6 +14,9 @@ import {
   ToolOutput,
 } from "./elements/tool";
 
+// Use `any` aliases for components to avoid React type mismatches across @types/react versions
+const ToolComponent: any = Tool;
+const ToolContentComponent: any = ToolContent;
 interface ChatMessagesProps {
   messages: (Message | UIMessage)[];
   inProgress?: boolean;
@@ -24,7 +27,7 @@ export function ChatMessages({
   messages,
   inProgress = false,
   onRegenerate,
-}: ChatMessagesProps): JSX.Element {
+}: ChatMessagesProps): ReactElement {
   const scrollRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -92,16 +95,16 @@ export function ChatMessages({
                       const toolCallId = `${message.id}-${partIndex}`;
 
                       return (
-                        <Tool defaultOpen={true} key={toolCallId}>
+                        <ToolComponent defaultOpen={true} key={toolCallId}>
                           <ToolHeader
                             state={part.state}
                             title={part.toolName}
                           />
-                          <ToolContent>
+                          <ToolContentComponent>
                             <ToolInput input={part.input as any} />
                             <ToolOutput output={part.output as any} />
-                          </ToolContent>
-                        </Tool>
+                          </ToolContentComponent>
+                        </ToolComponent>
                       );
                     }
 

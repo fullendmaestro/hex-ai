@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactElement } from "react";
 import { Button } from "@hex-ai/ui/components/button";
 import { cn } from "@hex-ai/ui/lib/utils";
 import { MessageSquare, X } from "lucide-react";
 import { useChat } from "@/hooks/useChat";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
+import { Greeting } from "./greeting";
 
 interface ChatSidebarProps {
   defaultOpen?: boolean;
@@ -16,7 +17,7 @@ interface ChatSidebarProps {
 export function ChatSidebar({
   defaultOpen = false,
   className,
-}: ChatSidebarProps): JSX.Element {
+}: ChatSidebarProps): ReactElement {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [input, setInput] = useState("");
   const { messages, status, sendMessage, stop, createNewSession } = useChat();
@@ -101,15 +102,7 @@ export function ChatSidebar({
         {/* Messages Area */}
         <div className="flex-1 overflow-hidden bg-background">
           {messages.length === 0 && !status ? (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center text-muted-foreground px-4">
-                <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p className="text-sm">
-                  Ask something like "Tell me a joke" or "What's the weather
-                  like today?"
-                </p>
-              </div>
-            </div>
+            <Greeting />
           ) : (
             <ChatMessages
               messages={messages}
