@@ -65,7 +65,7 @@ export function ChatMessages({
                   className="flex justify-end animate-in fade-in slide-in-from-bottom-2 duration-300"
                 >
                   <div className="rounded-2xl px-3 py-2 max-w-[80%] bg-foreground text-background">
-                    <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-words">
+                    <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-all">
                       {textContent}
                     </p>
                   </div>
@@ -85,7 +85,7 @@ export function ChatMessages({
                       return (
                         <p
                           key={partIndex}
-                          className="text-[15px] leading-[1.5] whitespace-pre-wrap break-words text-foreground"
+                          className="text-[15px] leading-[1.5] whitespace-pre-wrap break-all text-foreground"
                         >
                           {part.text}
                         </p>
@@ -154,7 +154,7 @@ export function ChatMessages({
                 className="flex justify-end animate-in fade-in slide-in-from-bottom-2 duration-300"
               >
                 <div className="rounded-2xl px-3 py-2 max-w-[80%] bg-foreground text-background">
-                  <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-words">
+                  <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-all">
                     {legacyMessage.content}
                   </p>
                 </div>
@@ -168,7 +168,7 @@ export function ChatMessages({
               className="group flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300"
             >
               <div className="max-w-full">
-                <p className="text-[15px] leading-[1.5] whitespace-pre-wrap break-words text-foreground">
+                <p className="text-[15px] leading-[1.5] whitespace-pre-wrap break-all text-foreground">
                   {legacyMessage.content}
                 </p>
               </div>

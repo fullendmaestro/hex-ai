@@ -19,6 +19,8 @@ import {
   useAccount,
   useSendTransaction,
   useWaitForTransactionReceipt,
+  useSwitchChain,
+  useChainId,
 } from "wagmi";
 import { parseEther, type Hex } from "viem";
 
@@ -32,7 +34,10 @@ export function TransactionBuilderBody({
   input,
 }: TransactionBuilderBodyProps) {
   const [copied, setCopied] = useState(false);
+  const [isSwitchingChain, setIsSwitchingChain] = useState(false);
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
+  const { switchChainAsync } = useSwitchChain();
   const {
     data: hash,
     isPending,
@@ -90,22 +95,34 @@ export function TransactionBuilderBody({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSendTransaction = () => {
+  const handleSendTransaction = async () => {
     const txRequest = parsedOutput?.transactionRequest;
     if (!txRequest || !isConnected) return;
 
-    const tx: any = {
-      to: txRequest.to as Hex,
-      data: txRequest.data as Hex,
-      chainId: txRequest.chainId,
-    };
+    try {
+      // Check if we need to switch chains
+      if (chainId !== txRequest.chainId) {
+        setIsSwitchingChain(true);
+        await switchChainAsync({ chainId: txRequest.chainId });
+        setIsSwitchingChain(false);
+      }
 
-    // Add value if present (for native token transfers or payable functions)
-    if (txRequest.value && txRequest.value !== "0") {
-      tx.value = BigInt(txRequest.value);
+      const tx: any = {
+        to: txRequest.to as Hex,
+        data: txRequest.data as Hex,
+        chainId: txRequest.chainId,
+      };
+
+      // Add value if present (for native token transfers or payable functions)
+      if (txRequest.value && txRequest.value !== "0") {
+        tx.value = BigInt(txRequest.value);
+      }
+
+      sendTransaction(tx);
+    } catch (error) {
+      setIsSwitchingChain(false);
+      console.error("Transaction error:", error);
     }
-
-    sendTransaction(tx);
   };
 
   const txRequest = parsedOutput?.transactionRequest;
@@ -282,10 +299,31 @@ export function TransactionBuilderBody({
             </Alert>
           )}
 
+        {isConnected && chainId !== txRequest?.chainId && !isSwitchingChain && (
+          <Alert
+            variant="default"
+            className="bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900"
+          >
+            <AlertDescription className="text-sm text-amber-900 dark:text-amber-100">
+              Wrong network detected. Click the button to switch to the correct
+              network.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {isSwitchingChain && (
+          <Alert>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <AlertDescription className="text-sm">
+              Switching network...
+            </AlertDescription>
+          </Alert>
+        )}
+
         {error && (
           <Alert variant="destructive">
             <XCircle className="h-4 w-4" />
-            <AlertDescription className="text-sm">
+            <AlertDescription className="text-sm break-all">
               {error.message}
             </AlertDescription>
           </Alert>
@@ -329,11 +367,17 @@ export function TransactionBuilderBody({
             isPending ||
             isConfirming ||
             isConfirmed ||
+            isSwitchingChain ||
             address?.toLowerCase() !== txRequest?.from?.toLowerCase()
           }
           className="w-full"
         >
-          {isPending || isConfirming ? (
+          {isSwitchingChain ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Switching Network...
+            </>
+          ) : isPending || isConfirming ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               {isPending ? "Signing..." : "Confirming..."}
@@ -342,6 +386,11 @@ export function TransactionBuilderBody({
             <>
               <CheckCircle2 className="mr-2 h-4 w-4" />
               Confirmed
+            </>
+          ) : chainId !== txRequest?.chainId ? (
+            <>
+              <Send className="mr-2 h-4 w-4" />
+              Switch Network & Sign
             </>
           ) : (
             <>
