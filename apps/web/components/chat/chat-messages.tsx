@@ -13,6 +13,7 @@ import {
   ToolInput,
   ToolOutput,
 } from "./elements/tool";
+import { getToolBodyComponent } from "./elements/tool-body";
 
 // Use `any` aliases for components to avoid React type mismatches across @types/react versions
 const ToolComponent: any = Tool;
@@ -94,6 +95,9 @@ export function ChatMessages({
                     if (part.type === "tool") {
                       const toolCallId = `${message.id}-${partIndex}`;
 
+                      const ToolBody = getToolBodyComponent(part.toolName);
+                      if (!ToolBody) return null;
+
                       return (
                         <ToolComponent defaultOpen={true} key={toolCallId}>
                           <ToolHeader
@@ -101,8 +105,14 @@ export function ChatMessages({
                             title={part.toolName}
                           />
                           <ToolContentComponent>
-                            <ToolInput input={part.input as any} />
-                            <ToolOutput output={part.output as any} />
+                            <ToolOutput
+                              output={
+                                <ToolBody
+                                  output={part.output}
+                                  input={part.input}
+                                />
+                              }
+                            />
                           </ToolContentComponent>
                         </ToolComponent>
                       );

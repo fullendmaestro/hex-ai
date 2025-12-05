@@ -1,6 +1,6 @@
 "use client";
 
-// import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Search, Bell } from "lucide-react";
 import { Input } from "@hex-ai/ui/components/input";
 import { Button } from "@hex-ai/ui/components/button";
@@ -40,7 +40,7 @@ export function HomeHeader() {
         {/* Right side actions */}
         <div className="flex flex-1 items-center justify-end gap-3 sm:gap-4">
           {/* RainbowKit Connect Button */}
-          {/* <ConnectButton /> */}
+          <ConnectButton />
         </div>
       </div>
     </header>

@@ -107,7 +107,7 @@ export const ToolContent = ({
     )}
     {...(props as any)}
   >
-    {children}
+    <div className="max-w-[24rem]">{children}</div>
   </CollapsibleContent>
 );
 
