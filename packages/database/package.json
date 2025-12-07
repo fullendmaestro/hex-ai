@@ -1,0 +1,26 @@
+{
+  "name": "@hex-ai/database",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./client": "./src/client.ts",
+    "./schema": "./src/schema/index.ts"
+  },
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:drop": "drizzle-kit drop"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "drizzle-orm": "^0.45.0",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@hex-ai/typescript-config": "workspace:*",
+    "@types/node": "^20.11.17",
+    "drizzle-kit": "^0.31.8",
+    "typescript": "^5.8.3"
+  }
+}
