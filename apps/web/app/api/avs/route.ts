@@ -6,6 +6,9 @@ import {
 import { EIGENEXPLORER_API_URL } from "@/config/api";
 import { EIGENEXPLORER_API_KEY } from "@/config/key";
 
+// Mark this route as dynamic to prevent static optimization
+export const dynamic = "force-dynamic";
+
 const headers = {
   "Content-Type": "application/json",
   ...(EIGENEXPLORER_API_KEY && { "x-api-token": EIGENEXPLORER_API_KEY }),
