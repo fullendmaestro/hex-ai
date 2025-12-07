@@ -56,9 +56,10 @@ async function getAVSDetails(address: string): Promise<AVSDetailData | null> {
 export default async function AVSDetailPage({
   params,
 }: {
-  params: { address: string };
+  params: Promise<{ address: string }>;
 }) {
-  const avs = await getAVSDetails(params.address);
+  const { address } = await params;
+  const avs = await getAVSDetails(address);
 
   if (!avs) {
     notFound();

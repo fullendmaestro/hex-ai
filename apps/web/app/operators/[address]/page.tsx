@@ -54,9 +54,10 @@ async function getOperatorDetails(
 export default async function OperatorDetailPage({
   params,
 }: {
-  params: { address: string };
+  params: Promise<{ address: string }>;
 }) {
-  const operator = await getOperatorDetails(params.address);
+  const { address } = await params;
+  const operator = await getOperatorDetails(address);
 
   if (!operator) {
     notFound();
