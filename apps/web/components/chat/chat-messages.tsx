@@ -14,6 +14,7 @@ import {
   ToolOutput,
 } from "./elements/tool";
 import { getToolBodyComponent } from "./elements/tool-body";
+import { Response } from "./elements/response";
 
 // Use `any` aliases for components to avoid React type mismatches across @types/react versions
 const ToolComponent: any = Tool;
@@ -83,12 +84,12 @@ export function ChatMessages({
                   {message.parts.map((part, partIndex) => {
                     if (part.type === "text") {
                       return (
-                        <p
+                        <Response
                           key={partIndex}
                           className="text-[15px] leading-[1.5] whitespace-pre-wrap break-all text-foreground"
                         >
                           {part.text}
-                        </p>
+                        </Response>
                       );
                     }
 
@@ -168,9 +169,9 @@ export function ChatMessages({
               className="group flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300"
             >
               <div className="max-w-full">
-                <p className="text-[15px] leading-[1.5] whitespace-pre-wrap break-all text-foreground">
+                <Response className="text-[15px] leading-[1.5] whitespace-pre-wrap break-all text-foreground">
                   {legacyMessage.content}
-                </p>
+                </Response>
               </div>
 
               <MessageControls
