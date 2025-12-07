@@ -27,8 +27,26 @@ export default function HexAILanding() {
       <header className="border-b border-cyan-500/20 bg-[#0A0E27]/90 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <HexagonIcon className="w-10 h-10 text-cyan-400" />
+            <div className="flex items-center space-x-3">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 4L8 10L20 16L32 10L20 4Z"
+                  fill="#22D3EE"
+                  fillOpacity="0.9"
+                />
+                <path d="M8 24L20 30L32 24V16L20 22L8 16V24Z" fill="#3B82F6" />
+                <path
+                  d="M20 16L14 19V25L20 28L26 25V19L20 16Z"
+                  fill="#60A5FA"
+                  fillOpacity="0.6"
+                />
+              </svg>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
                 Hex AI
               </h1>

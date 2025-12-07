@@ -13,27 +13,30 @@ export function HomeHeader() {
         <div className="flex items-center gap-8">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="flex size-10 items-center justify-center rounded-full bg-foreground">
+            <div className="flex size-10 items-center justify-center">
               <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="text-background"
               >
                 <path
-                  d="M12 2L2 7L12 12L22 7L12 2Z"
-                  fill="currentColor"
-                  opacity="0.9"
+                  d="M20 4L8 10L20 16L32 10L20 4Z"
+                  fill="#3B82F6"
+                  fillOpacity="0.9"
                 />
+                <path d="M8 24L20 30L32 24V16L20 22L8 16V24Z" fill="#3B82F6" />
                 <path
-                  d="M2 17L12 22L22 17V12L12 17L2 12V17Z"
-                  fill="currentColor"
+                  d="M20 16L14 19V25L20 28L26 25V19L20 16Z"
+                  fill="#60A5FA"
+                  fillOpacity="0.6"
                 />
               </svg>
             </div>
-            <h1 className="text-lg font-bold text-foreground">Hex AI</h1>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+              Hex AI
+            </h1>
           </div>
         </div>
 

@@ -9,61 +9,73 @@ import {
   CardTitle,
 } from "@hex-ai/ui/components/card";
 
-export function SummaryCards() {
+interface SummaryCardsProps {
+  totalAVS: number;
+  totalOperators: number;
+  totalStakers: number;
+  avgApy: number;
+}
+
+export function SummaryCards({
+  totalAVS,
+  totalOperators,
+  totalStakers,
+  avgApy,
+}: SummaryCardsProps) {
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Total AVS</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {totalAVS.toLocaleString()}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
               <IconTrendingUp />
-              +12.5%
+              Active
             </Badge>
           </CardAction>
         </CardHeader>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Total Operators</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {totalOperators.toLocaleString()}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
+              <IconTrendingUp />
+              Active
             </Badge>
           </CardAction>
         </CardHeader>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>Total Stakers</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {totalStakers.toLocaleString()}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
               <IconTrendingUp />
-              +12.5%
+              Growing
             </Badge>
           </CardAction>
         </CardHeader>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Average APY</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {avgApy > 0 ? `${avgApy.toFixed(2)}%` : "N/A"}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
+              {avgApy > 0 ? <IconTrendingUp /> : <IconTrendingDown />}
+              {avgApy > 0 ? "Available" : "N/A"}
             </Badge>
           </CardAction>
         </CardHeader>
