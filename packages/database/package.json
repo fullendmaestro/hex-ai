@@ -4,23 +4,36 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./client": "./src/client.ts",
-    "./schema": "./src/schema/index.ts"
+    "./client": {
+      "types": "./src/client.ts",
+      "default": "./src/client.ts"
+    },
+    "./schema": {
+      "types": "./src/schema/index.ts",
+      "default": "./src/schema/index.ts"
+    },
+    "./queries": {
+      "types": "./src/queries/index.ts",
+      "default": "./src/queries/index.ts"
+    }
   },
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:drop": "drizzle-kit drop"
+    "db:drop": "drizzle-kit drop",
+    "db:seed": "tsx src/scripts/seed.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
     "drizzle-orm": "^0.45.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "nanoid": "^5.0.4"
   },
   "devDependencies": {
     "@hex-ai/typescript-config": "workspace:*",
     "@types/node": "^20.11.17",
     "drizzle-kit": "^0.31.8",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "tsx": "^4.7.0"
   }
 }
