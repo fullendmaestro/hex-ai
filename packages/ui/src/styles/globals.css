@@ -49,89 +49,115 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  /* Light theme - Clean white with subtle hints */
-  --background: oklch(0.99 0.005 240);
-  --foreground: oklch(0.15 0.01 240);
+  /* RADIUS: Slightly sharper for a "Technical/Data" feel */
+  --radius: 0.5rem;
+
+  /* LIGHT MODE: Clean, Clinical, Trustworthy */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.13 0.02 266); /* Deep Navy text, softer than black */
+
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.01 240);
+  --card-foreground: oklch(0.13 0.02 266);
+
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.01 240);
-  /* Primary - Cyan accent */
-  --primary: oklch(0.65 0.18 210);
-  --primary-foreground: oklch(0.99 0.005 240);
-  /* Secondary - Purple accent */
-  --secondary: oklch(0.58 0.15 285);
-  --secondary-foreground: oklch(0.99 0.005 240);
-  --muted: oklch(0.96 0.005 240);
-  --muted-foreground: oklch(0.5 0.01 240);
-  /* Accent - Bright cyan */
-  --accent: oklch(0.7 0.2 195);
-  --accent-foreground: oklch(0.99 0.005 240);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.99 0.005 240);
-  --border: oklch(0.9 0.005 240);
-  --input: oklch(0.9 0.005 240);
-  --ring: oklch(0.65 0.18 210);
-  /* Charts - Cyan, Purple, Green spectrum */
-  --chart-1: oklch(0.65 0.18 210); /* Cyan */
-  --chart-2: oklch(0.58 0.15 285); /* Purple */
-  --chart-3: oklch(0.6 0.18 165); /* Green */
-  --chart-4: oklch(0.7 0.2 195); /* Bright Cyan */
-  --chart-5: oklch(0.65 0.2 300); /* Pink-Purple */
-  /* Sidebar */
-  --sidebar: oklch(0.98 0.005 240);
-  --sidebar-foreground: oklch(0.15 0.01 240);
-  --sidebar-primary: oklch(0.65 0.18 210);
-  --sidebar-primary-foreground: oklch(0.99 0.005 240);
-  --sidebar-accent: oklch(0.96 0.005 240);
-  --sidebar-accent-foreground: oklch(0.15 0.01 240);
-  --sidebar-border: oklch(0.9 0.005 240);
-  --sidebar-ring: oklch(0.65 0.18 210);
-  /* Preserve any original variables not explicitly updated */
-  /* (keeps compatibility with previously defined tokens) */
+  --popover-foreground: oklch(0.13 0.02 266);
+
+  /* PRIMARY: Deep Indigo for Light Mode (Readable) */
+  --primary: oklch(0.45 0.18 266);
+  --primary-foreground: oklch(0.98 0 0);
+
+  /* SECONDARY: Soft Lavender */
+  --secondary: oklch(0.96 0.01 266);
+  --secondary-foreground: oklch(0.45 0.18 266);
+
+  /* MUTED: For borders and subtle text */
+  --muted: oklch(0.96 0.01 266);
+  --muted-foreground: oklch(0.5 0.04 266);
+
+  /* ACCENT: For hover states */
+  --accent: oklch(0.94 0.02 266);
+  --accent-foreground: oklch(0.45 0.18 266);
+
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.9 0.02 266);
+  --input: oklch(0.9 0.02 266);
+  --ring: oklch(0.45 0.18 266);
+
+  /* CHART COLORS: Distinct for Data Viz (Staking vs Restaking) */
+  --chart-1: oklch(0.55 0.22 266); /* Primary Purple */
+  --chart-2: oklch(0.65 0.18 190); /* Cyan/Teal (Liquid Staking) */
+  --chart-3: oklch(0.6 0.18 30); /* Amber/Orange (Yield) */
+  --chart-4: oklch(0.6 0.2 340); /* Rose/Pink (Risk) */
+  --chart-5: oklch(0.55 0.15 240); /* Blue (Validator Health) */
+
+  /* SIDEBAR: Light mode sidebar matches background for cleanliness */
+  --sidebar: oklch(0.98 0.005 266);
+  --sidebar-foreground: oklch(0.13 0.02 266);
+  --sidebar-primary: oklch(0.45 0.18 266);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.94 0.02 266);
+  --sidebar-accent-foreground: oklch(0.45 0.18 266);
+  --sidebar-border: oklch(0.9 0.02 266);
+  --sidebar-ring: oklch(0.45 0.18 266);
 }
 
 .dark {
-  /* Dark theme - Deep navy/space background */
-  --background: oklch(0.12 0.015 250);
-  --foreground: oklch(0.95 0.01 240);
-  --card: oklch(0.16 0.02 250);
-  --card-foreground: oklch(0.95 0.01 240);
-  --popover: oklch(0.16 0.02 250);
-  --popover-foreground: oklch(0.95 0.01 240);
-  /* Primary - Bright Cyan */
-  --primary: oklch(0.75 0.2 195);
-  --primary-foreground: oklch(0.12 0.015 250);
-  /* Secondary - Vibrant Purple */
-  --secondary: oklch(0.65 0.18 285);
-  --secondary-foreground: oklch(0.95 0.01 240);
-  --muted: oklch(0.22 0.02 250);
-  --muted-foreground: oklch(0.65 0.01 240);
-  /* Accent - Electric Cyan */
-  --accent: oklch(0.7 0.22 195);
-  --accent-foreground: oklch(0.12 0.015 250);
+  /* DARK MODE: The "Hex/Cyber" Aesthetic */
+
+  /* BACKGROUND: Deep Void Navy (Not just grey) */
+  --background: oklch(0.1 0.03 266);
+  --foreground: oklch(0.98 0.01 266);
+
+  /* CARD: Slightly lighter void to create depth */
+  --card: oklch(0.13 0.03 266);
+  --card-foreground: oklch(0.98 0.01 266);
+
+  --popover: oklch(0.13 0.03 266);
+  --popover-foreground: oklch(0.98 0.01 266);
+
+  /* PRIMARY: Electric Violet (Glowing effect) */
+  --primary: oklch(0.65 0.22 266);
+  --primary-foreground: oklch(1 0 0);
+
+  /* SECONDARY: Deep purple-grey for secondary buttons */
+  --secondary: oklch(0.2 0.04 266);
+  --secondary-foreground: oklch(0.98 0.01 266);
+
+  /* MUTED: For background UI elements */
+  --muted: oklch(0.18 0.03 266);
+  --muted-foreground: oklch(0.7 0.04 266);
+
+  /* ACCENT: Brighter interaction state */
+  --accent: oklch(0.25 0.05 266);
+  --accent-foreground: oklch(0.98 0.01 266);
+
+  /* DESTRUCTIVE: Sharp Red for Slashing Risks */
   --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.95 0.01 240);
-  --border: oklch(0.25 0.02 250);
-  --input: oklch(0.25 0.02 250);
-  --ring: oklch(0.75 0.2 195);
-  /* Charts - Vibrant tech colors */
-  --chart-1: oklch(0.75 0.2 195); /* Bright Cyan */
-  --chart-2: oklch(0.65 0.18 285); /* Purple */
-  --chart-3: oklch(0.7 0.2 165); /* Green */
-  --chart-4: oklch(0.7 0.22 305); /* Pink */
-  --chart-5: oklch(0.68 0.2 60); /* Orange */
-  /* Sidebar - Slightly lighter than background */
-  --sidebar: oklch(0.14 0.015 250);
-  --sidebar-foreground: oklch(0.95 0.01 240);
-  --sidebar-primary: oklch(0.75 0.2 195);
-  --sidebar-primary-foreground: oklch(0.12 0.015 250);
-  --sidebar-accent: oklch(0.22 0.02 250);
-  --sidebar-accent-foreground: oklch(0.95 0.01 240);
-  --sidebar-border: oklch(0.25 0.02 250);
-  --sidebar-ring: oklch(0.75 0.2 195);
-  /* Preserve any original variables not explicitly updated */
+  --destructive-foreground: oklch(0.98 0 0);
+
+  /* BORDER: Subtle purple tint, not just grey */
+  --border: oklch(0.2 0.04 266);
+  --input: oklch(0.2 0.04 266);
+  --ring: oklch(0.55 0.22 266);
+
+  /* CHART COLORS: Neon Palette for Dark Mode */
+  --chart-1: oklch(0.65 0.22 266); /* Neon Purple */
+  --chart-2: oklch(0.75 0.18 190); /* Neon Cyan */
+  --chart-3: oklch(0.7 0.18 40); /* Neon Gold */
+  --chart-4: oklch(0.65 0.22 340); /* Neon Magenta */
+  --chart-5: oklch(0.6 0.18 230); /* Neon Blue */
+
+  /* SIDEBAR: Matches the card/void aesthetic */
+  --sidebar: oklch(0.11 0.03 266);
+  --sidebar-foreground: oklch(0.98 0.01 266);
+  --sidebar-primary: oklch(0.65 0.22 266);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.18 0.03 266);
+  --sidebar-accent-foreground: oklch(0.98 0.01 266);
+  --sidebar-border: oklch(0.2 0.04 266);
+  --sidebar-ring: oklch(0.55 0.22 266);
 }
 
 @layer base {
