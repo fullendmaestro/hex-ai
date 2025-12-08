@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { Card, CardContent } from "@hex-ai/ui/components/card";
+import Link from "next/link";
 
 export default function HexAILanding() {
   const { openConnectModal } = useConnectModal();
@@ -51,13 +52,15 @@ export default function HexAILanding() {
                 Hex AI
               </h1>
             </div>
-            <Button
-              onClick={openConnectModal}
-              className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:shadow-lg hover:shadow-cyan-500/50"
-            >
-              <Wallet className="w-4 h-4 mr-2" />
-              Connect Wallet
-            </Button>
+            <Link href="/home">
+              <Button
+                // onClick={openConnectModal}
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:shadow-lg hover:shadow-cyan-500/50"
+              >
+                <Wallet className="w-4 h-4 mr-2" />
+                Get Started
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
@@ -82,14 +85,16 @@ export default function HexAILanding() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-cyan-500 to-purple-500"
-            >
-              <Zap className="w-5 h-5 mr-2" />
-              Start Analysis
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+            <Link href="/home">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-cyan-500 to-purple-500"
+              >
+                <Zap className="w-5 h-5 mr-2" />
+                Start Analysis
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
             <Button
               variant="outline"
               size="lg"
@@ -230,7 +235,7 @@ export default function HexAILanding() {
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-16">
         <Card className="bg-gradient-to-r from-cyan-600 to-purple-600 border-0 overflow-hidden relative">
-          <div className="absolute inset-0 bg-[url('/hex-pattern.png')] opacity-20"></div>
+          <div className="absolute inset-0 bg-[url('/defi-adoption.jpg')] opacity-20"></div>
           <CardContent className="p-12 text-center relative z-10">
             <Brain className="w-16 h-16 mx-auto mb-6 text-white" />
             <h2 className="text-4xl font-bold mb-4 text-white">
