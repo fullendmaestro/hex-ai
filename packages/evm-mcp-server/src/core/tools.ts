@@ -130,7 +130,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get Gas Prices",
@@ -195,7 +197,7 @@ export function registerEVMTools(server: McpServer) {
           .string()
           .optional()
           .describe(
-            "Network name or chain ID. ENS resolution works best on Ethereum mainnet. Defaults to Ethereum mainnet."
+            "Network name (e.g: sepolia, ethereum). ENS resolution works best on Ethereum mainnet. Defaults to Ethereum mainnet."
           ),
       },
       annotations: {
@@ -263,7 +265,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Lookup ENS Address",
@@ -324,7 +328,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get Block",
@@ -375,7 +381,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get Latest Block",
@@ -419,7 +427,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get Native Token Balance",
@@ -478,7 +488,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get ERC20 Token Balance",
@@ -547,7 +559,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get Token Allowance",
@@ -631,7 +645,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get Transaction",
@@ -671,7 +687,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get Transaction Receipt",
@@ -720,7 +738,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Wait For Transaction",
@@ -786,7 +806,7 @@ export function registerEVMTools(server: McpServer) {
           .string()
           .optional()
           .describe(
-            "Network name or chain ID. Defaults to ethereum. Supported: ethereum, polygon, arbitrum, optimism, base, avalanche, gnosis, fantom, bsc, celo, scroll, linea, zksync, manta, blast, and testnets (sepolia, mumbai, arbitrum-sepolia, optimism-sepolia, base-sepolia, avalanche-fuji)"
+            "Network name (e.g: sepolia, ethereum). Defaults to ethereum. Supported: ethereum, polygon, arbitrum, optimism, base, avalanche, gnosis, fantom, bsc, celo, scroll, linea, zksync, manta, blast, and testnets (sepolia, mumbai, arbitrum-sepolia, optimism-sepolia, base-sepolia, avalanche-fuji)"
           ),
       },
       annotations: {
@@ -867,7 +887,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Read Smart Contract",
@@ -1027,7 +1049,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Build Contract Write Transaction",
@@ -1203,7 +1227,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Multicall (Batch Read)",
@@ -1389,7 +1415,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Build Native Token Transfer",
@@ -1461,7 +1489,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Build ERC20 Token Transfer",
@@ -1543,7 +1573,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Build Token Approval",
@@ -1625,7 +1657,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get NFT Info",
@@ -1684,7 +1718,9 @@ export function registerEVMTools(server: McpServer) {
         network: z
           .string()
           .optional()
-          .describe("Network name or chain ID. Defaults to Ethereum mainnet."),
+          .describe(
+            "Network name (e.g: sepolia, ethereum). Defaults to Ethereum mainnet."
+          ),
       },
       annotations: {
         title: "Get ERC1155 Balance",

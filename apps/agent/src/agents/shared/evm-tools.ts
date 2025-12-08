@@ -10,6 +10,8 @@ const toolset = new McpToolset({
     args: ["../../packages/evm-mcp-server/build/index.js"],
     env: {
       EVM_PRIVATE_KEY: process.env.EVM_PRIVATE_KEY || "",
+      ETHERSCAN_API_KEY:
+        process.env.ETHERSCAN_API_KEY || "TI54R8PPNMT6F8IQB7VEJ1RTPD9CZNHANI",
     },
   },
 });
