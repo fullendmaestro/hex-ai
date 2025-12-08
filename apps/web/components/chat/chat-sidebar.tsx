@@ -8,6 +8,7 @@ import { useChat } from "@/hooks/useChat";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
 import { Greeting } from "./greeting";
+import { useChatContext } from "./chat-context";
 
 interface ChatSidebarProps {
   defaultOpen?: boolean;
@@ -18,8 +19,7 @@ export function ChatSidebar({
   defaultOpen = false,
   className,
 }: ChatSidebarProps): ReactElement {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-  const [input, setInput] = useState("");
+  const { isOpen, setIsOpen, input, setInput } = useChatContext();
   const { messages, status, sendMessage, stop, createNewSession } = useChat();
 
   const handleSend = (text: string) => {

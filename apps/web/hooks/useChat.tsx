@@ -12,6 +12,8 @@ import {
 } from "@/lib/Api";
 import { useApiUrl } from "./use-api-url";
 import { UIMessage, UIMessagePart, TextUIPart, ToolUIPart } from "@/types";
+// Add these imports for wallet integration
+import { useAccount, useChainId, useChains } from "wagmi";
 
 // Type definitions for event content structure
 interface EventContentPart {
@@ -66,6 +68,12 @@ export function useChat() {
   const [status, setStatus] = useState<boolean>(false);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const isCreatingSessionDuringMessageSend = useRef(false);
+
+  // Add wallet hooks
+  const { address, isConnected } = useAccount();
+  const chainId = useChainId();
+  const chains = useChains();
+  const chain = chains.find((c) => c.id === chainId);
 
   // Fetch available agents
   const { data: agents = [] } = useQuery({
@@ -423,6 +431,64 @@ export function useChat() {
   const createNewSession = useCallback(() => {
     createSessionMutation.mutate();
   }, [createSessionMutation]);
+
+  // Update session state on wallet/network changes
+  useEffect(() => {
+    if (!currentSessionId || !rootAgent || !isConnected || !address) {
+      return;
+    }
+
+    const updateSessionState = async () => {
+      try {
+        await apiClient.api.stateControllerUpdateState(
+          encodeURIComponent(rootAgent.relativePath),
+          currentSessionId,
+          {
+            path: "wallet.address",
+            value: address,
+          }
+        );
+
+        if (chain) {
+          await apiClient.api.stateControllerUpdateState(
+            encodeURIComponent(rootAgent.relativePath),
+            currentSessionId,
+            {
+              path: "wallet.chainId",
+              value: chain.id,
+            }
+          );
+
+          await apiClient.api.stateControllerUpdateState(
+            encodeURIComponent(rootAgent.relativePath),
+            currentSessionId,
+            {
+              path: "wallet.chainName",
+              value: chain.name,
+            }
+          );
+        }
+
+        // Invalidate state queries to refresh UI
+        queryClient.invalidateQueries({
+          queryKey: ["state", apiUrl, rootAgent.relativePath, currentSessionId],
+        });
+      } catch (error) {
+        console.error("Failed to update session state:", error);
+      }
+    };
+
+    updateSessionState();
+  }, [
+    address,
+    chain,
+    isConnected,
+    currentSessionId,
+    rootAgent,
+    apiClient,
+    apiUrl,
+    queryClient,
+  ]);
 
   return {
     messages,

@@ -11,7 +11,9 @@ import {
   IconDotsVertical,
   IconLayoutColumns,
   IconExternalLink,
+  IconSparkles,
 } from "@tabler/icons-react";
+import { useChatContext } from "@/components/chat";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -141,6 +143,29 @@ const avsColumns: ColumnDef<AVSData>[] = [
     ),
   },
   {
+    id: "askAI",
+    header: () => <div className="text-center">Ask AI</div>,
+    cell: ({ row }) => {
+      const { openChatWithInput } = useChatContext();
+      return (
+        <div className="text-center">
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 gap-2"
+            onClick={() => {
+              const query = `AVS: ${row.original.address} on Ethereum Mainnet`;
+              openChatWithInput(query);
+            }}
+          >
+            <IconSparkles className="h-4 w-4" />
+            Ask AI
+          </Button>
+        </div>
+      );
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => (
       <DropdownMenu>
@@ -263,6 +288,29 @@ const operatorColumns: ColumnDef<OperatorData>[] = [
         )}
       </div>
     ),
+  },
+  {
+    id: "askAI",
+    header: () => <div className="text-center">Ask AI</div>,
+    cell: ({ row }) => {
+      const { openChatWithInput } = useChatContext();
+      return (
+        <div className="text-center">
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 gap-2"
+            onClick={() => {
+              const query = `Operator: ${row.original.address} on Ethereum Mainnet`;
+              openChatWithInput(query);
+            }}
+          >
+            <IconSparkles className="h-4 w-4" />
+            Ask AI
+          </Button>
+        </div>
+      );
+    },
   },
   {
     id: "actions",

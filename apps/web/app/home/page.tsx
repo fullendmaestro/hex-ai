@@ -1,5 +1,5 @@
 import React from "react";
-import { ChatSidebar } from "@/components/chat";
+import { ChatSidebar, ChatProvider } from "@/components/chat";
 import { HomeHeader } from "@/components/home-header";
 import { DataTable } from "@/components/data-table";
 import { SummaryCards } from "@/components/wallet/summary-cards";
@@ -21,32 +21,34 @@ export default async function Page() {
     (avsData.length || 1);
 
   return (
-    <main className="">
-      <div className="sticky top-0 z-50">
-        <HomeHeader />
-      </div>
+    <ChatProvider>
+      <main className="">
+        <div className="sticky top-0 z-50">
+          <HomeHeader />
+        </div>
 
-      <div className="flex flex-1 flex-col">
-        <div className="@container/main flex flex-1 flex-col gap-2">
-          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <div className="container mx-auto max-w-7xl px-4 lg:px-6">
-              <SummaryCards
-                totalAVS={totalAVS}
-                totalOperators={totalOperators}
-                totalStakers={totalStakers}
-                avgApy={avgApy}
-              />
-            </div>
-            <div className="container mx-auto max-w-7xl px-4 lg:px-6">
-              <DataTable avsData={avsData} operatorsData={operatorsData} />
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <div className="container mx-auto max-w-7xl px-4 lg:px-6">
+                <SummaryCards
+                  totalAVS={totalAVS}
+                  totalOperators={totalOperators}
+                  totalStakers={totalStakers}
+                  avgApy={avgApy}
+                />
+              </div>
+              <div className="container mx-auto max-w-7xl px-4 lg:px-6">
+                <DataTable avsData={avsData} operatorsData={operatorsData} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <React.Suspense fallback={null}>
-        <ChatSidebar />
-      </React.Suspense>
-    </main>
+        <React.Suspense fallback={null}>
+          <ChatSidebar />
+        </React.Suspense>
+      </main>
+    </ChatProvider>
   );
 }

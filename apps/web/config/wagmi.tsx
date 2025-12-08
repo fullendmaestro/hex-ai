@@ -9,11 +9,12 @@ import {
   anvil,
   zksync,
   sepolia,
+  holesky,
 } from "wagmi/chains";
 
 export default getDefaultConfig({
   appName: "Hex AI",
   projectId: "Null",
-  chains: [mainnet, optimism, arbitrum, base, zksync, sepolia, anvil],
+  chains: [mainnet, optimism, arbitrum, base, zksync, sepolia, holesky, anvil],
   ssr: false,
 }) as any;
