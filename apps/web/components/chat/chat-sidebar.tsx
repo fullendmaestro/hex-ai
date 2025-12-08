@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type ReactElement } from "react";
+import { useEffect, type ReactElement } from "react";
 import { Button } from "@hex-ai/ui/components/button";
 import { cn } from "@hex-ai/ui/lib/utils";
 import { MessageSquare, X } from "lucide-react";

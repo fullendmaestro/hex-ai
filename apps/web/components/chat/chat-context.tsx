@@ -5,13 +5,15 @@ import React, {
   useContext,
   useState,
   type ReactNode,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 
 interface ChatContextType {
   isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   input: string;
-  setInput: (input: string) => void;
+  setInput: Dispatch<SetStateAction<string>>;
   openChatWithInput: (text: string) => void;
 }
 
