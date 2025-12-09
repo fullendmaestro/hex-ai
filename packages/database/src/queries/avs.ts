@@ -1,6 +1,6 @@
 import { eq, and } from "drizzle-orm";
-import { db } from "../client";
-import { monitoredAVS } from "../schema/index";
+import { db } from "@hex-ai/database/client";
+import { monitoredAVS } from "@hex-ai/database/schema";
 
 export type MonitoredAVS = typeof monitoredAVS.$inferSelect;
 export type NewMonitoredAVS = typeof monitoredAVS.$inferInsert;

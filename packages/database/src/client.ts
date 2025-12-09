@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
-import * as schema from "./schema/index";
+import * as schema from "@hex-ai/database/schema";
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -22,4 +22,4 @@ export const db = new Proxy({} as ReturnType<typeof drizzle>, {
   },
 });
 
-export * from "./schema/index";
+export * from "@hex-ai/database/schema";

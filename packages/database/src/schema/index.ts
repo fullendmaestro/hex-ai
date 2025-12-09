@@ -15,6 +15,10 @@ export const monitoredAVS = pgTable("monitored_avs", {
   name: text("name"),
   description: text("description"),
   isActive: boolean("is_active").default(true).notNull(),
+  riskScore: text("risk_score"), // AI-generated risk assessment: 'low', 'medium', 'high'
+  riskFactors: jsonb("risk_factors"), // Detailed risk analysis breakdown
+  generatedSummary: text("generated_summary"), // AI-generated comprehensive summary
+  lastAnalyzedAt: timestamp("last_analyzed_at"), // Timestamp of last workflow analysis
   metadata: jsonb("metadata"), // Store additional metadata from EigenExplorer
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -28,6 +32,10 @@ export const monitoredOperators = pgTable("monitored_operators", {
   name: text("name"),
   description: text("description"),
   isActive: boolean("is_active").default(true).notNull(),
+  riskScore: text("risk_score"), // AI-generated risk assessment: 'low', 'medium', 'high'
+  riskFactors: jsonb("risk_factors"), // Detailed risk analysis breakdown
+  generatedSummary: text("generated_summary"), // AI-generated comprehensive summary
+  lastAnalyzedAt: timestamp("last_analyzed_at"), // Timestamp of last workflow analysis
   metadata: jsonb("metadata"), // Store additional metadata from EigenExplorer
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
