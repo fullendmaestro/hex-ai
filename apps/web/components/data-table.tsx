@@ -12,6 +12,8 @@ import {
   IconLayoutColumns,
   IconExternalLink,
   IconSparkles,
+  IconShieldCheck,
+  IconClock,
 } from "@tabler/icons-react";
 import { useChatContext } from "@/components/chat";
 import {
@@ -141,6 +143,47 @@ const avsColumns: ColumnDef<AVSData>[] = [
         )}
       </div>
     ),
+  },
+  {
+    accessorKey: "analysis",
+    header: () => <div className="text-center">AI Analysis</div>,
+    cell: ({ row }) => {
+      const analysis = row.original.analysis;
+      if (!analysis) {
+        return (
+          <div className="flex items-center justify-center gap-2 text-muted-foreground">
+            <IconClock className="h-4 w-4" />
+            <span className="text-xs">Pending</span>
+          </div>
+        );
+      }
+
+      const getRiskColor = (risk: string) => {
+        switch (risk) {
+          case "low":
+            return "bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800";
+          case "medium":
+            return "bg-yellow-100 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800";
+          case "high":
+            return "bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800";
+          default:
+            return "";
+        }
+      };
+
+      return (
+        <div className="flex flex-col items-center gap-1">
+          <Badge
+            className={`${getRiskColor(analysis.risk_score)} font-semibold uppercase text-xs`}
+          >
+            {analysis.risk_score} Risk
+          </Badge>
+          <span className="text-xs text-muted-foreground">
+            Score: {analysis.overall_score}/100
+          </span>
+        </div>
+      );
+    },
   },
   {
     id: "askAI",

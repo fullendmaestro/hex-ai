@@ -1,6 +1,13 @@
 "use server";
 
 // Types for EigenLayer data
+export interface AVSAnalysis {
+  risk_score: "low" | "medium" | "high";
+  overall_score: number;
+  recommendation: string;
+  executive_summary: string;
+}
+
 export interface AVSData {
   address: string;
   metadataName: string;
@@ -18,6 +25,8 @@ export interface AVSData {
   createdAt: string;
   updatedAt: string;
   shares?: any[];
+  analysis?: AVSAnalysis | null;
+  lastAnalyzedAt?: Date | null;
 }
 
 export interface OperatorData {
@@ -42,19 +51,50 @@ export interface OperatorData {
 export async function fetchAVSData(): Promise<AVSData[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/avs?chainId=1`, {
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
+
+    // Fetch monitored AVS with analysis from database
+    const monitoredResponse = await fetch(
+      `${baseUrl}/api/monitored/avs?chainId=1`,
+      {
+        next: { revalidate: 60 },
+        cache: "no-store",
+      }
+    );
+
+    // Fetch EigenExplorer data for display metrics
+    const eigenResponse = await fetch(`${baseUrl}/api/avs?chainId=1`, {
+      next: { revalidate: 300 },
     });
 
-    if (!response.ok) {
-      console.error("Failed to fetch AVS data from API");
+    if (!eigenResponse.ok) {
+      console.error("Failed to fetch AVS data from EigenExplorer API");
       return [];
     }
 
-    const result = await response.json();
-    const data = result?.data || [];
-    console.log("AVS data fetched:", data.length, "items");
-    return data;
+    const eigenResult = await eigenResponse.json();
+    const eigenData = eigenResult?.data || [];
+
+    // Get monitored AVS with analysis
+    let monitoredData: any[] = [];
+    if (monitoredResponse.ok) {
+      const monitoredResult = await monitoredResponse.json();
+      monitoredData = monitoredResult?.data || [];
+    }
+
+    // Merge EigenExplorer data with analysis data
+    const mergedData = eigenData.map((eigenAVS: any) => {
+      const monitored = monitoredData.find(
+        (m) => m.address.toLowerCase() === eigenAVS.address.toLowerCase()
+      );
+      return {
+        ...eigenAVS,
+        analysis: monitored?.analysis || null,
+        lastAnalyzedAt: monitored?.lastAnalyzedAt || null,
+      };
+    });
+
+    console.log("AVS data fetched:", mergedData.length, "items");
+    return mergedData;
   } catch (error) {
     console.error("Error fetching AVS data:", error);
     return [];

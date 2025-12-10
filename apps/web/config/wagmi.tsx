@@ -15,6 +15,6 @@ import {
 export default getDefaultConfig({
   appName: "Hex AI",
   projectId: "Null",
-  chains: [mainnet, optimism, arbitrum, base, zksync, sepolia, holesky, anvil],
+  chains: [mainnet, optimism, arbitrum, sepolia, holesky, anvil],
   ssr: false,
 }) as any;
