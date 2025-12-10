@@ -10,7 +10,6 @@ import {
   type EventsResponseDto,
   type SessionResponseDto,
 } from "@/lib/Api";
-import { useApiUrl } from "./use-api-url";
 import { UIMessage, UIMessagePart, TextUIPart, ToolUIPart } from "@/types";
 // Add these imports for wallet integration
 import { useAccount, useChainId, useChains } from "wagmi";
@@ -62,8 +61,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8042";
 
 export function useChat() {
   const queryClient = useQueryClient();
-  const apiUrl = useApiUrl();
-  const apiClient = useMemo(() => new Api({ baseUrl: apiUrl }), [apiUrl]);
+  const apiClient = new Api({ baseUrl: API_URL });
   const [messages, setMessages] = useState<UIMessage[]>([]);
   const [status, setStatus] = useState<boolean>(false);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
@@ -77,14 +75,14 @@ export function useChat() {
 
   // Fetch available agents
   const { data: agents = [] } = useQuery({
-    queryKey: ["agents", apiUrl],
+    queryKey: ["agents", API_URL],
     queryFn: async (): Promise<AgentListItemDto[]> => {
       if (!apiClient) throw new Error("API URL is required");
       const res = await apiClient.api.agentsControllerListAgents();
       const data: AgentsListResponseDto = res.data;
       return data.agents;
     },
-    enabled: !!apiUrl,
+    enabled: !!API_URL,
     staleTime: 30000,
     retry: 2,
   });
@@ -266,7 +264,7 @@ export function useChat() {
   const { data: sessionEvents } = useQuery({
     queryKey: [
       "agent-events",
-      apiUrl,
+      API_URL,
       rootAgent?.relativePath,
       currentSessionId,
     ],
@@ -352,7 +350,12 @@ export function useChat() {
 
       // Invalidate events query to start fetching for new session
       queryClient.invalidateQueries({
-        queryKey: ["agent-events", apiUrl, rootAgent?.relativePath, session.id],
+        queryKey: [
+          "agent-events",
+          API_URL,
+          rootAgent?.relativePath,
+          session.id,
+        ],
       });
     },
   });
@@ -405,7 +408,7 @@ export function useChat() {
       queryClient.invalidateQueries({
         queryKey: [
           "agent-events",
-          apiUrl,
+          API_URL,
           rootAgent?.relativePath,
           result.sessionId || currentSessionId,
         ],
@@ -471,7 +474,12 @@ export function useChat() {
 
         // Invalidate state queries to refresh UI
         queryClient.invalidateQueries({
-          queryKey: ["state", apiUrl, rootAgent.relativePath, currentSessionId],
+          queryKey: [
+            "state",
+            API_URL,
+            rootAgent.relativePath,
+            currentSessionId,
+          ],
         });
       } catch (error) {
         console.error("Failed to update session state:", error);
@@ -486,7 +494,7 @@ export function useChat() {
     currentSessionId,
     rootAgent,
     apiClient,
-    apiUrl,
+    API_URL,
     queryClient,
   ]);
 
