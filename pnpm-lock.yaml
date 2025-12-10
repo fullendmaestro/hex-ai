@@ -26,6 +26,15 @@ importers:
 
   apps/agent:
     dependencies:
+      '@ai-sdk/azure':
+        specifier: ^2.0.82
+        version: 2.0.82(zod@4.1.13)
+      '@ai-sdk/provider':
+        specifier: ^2.0.0
+        version: 2.0.0
+      '@hex-ai/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@hono/node-server':
         specifier: ^1.19.6
         version: 1.19.6(hono@4.10.7)
@@ -44,6 +53,9 @@ importers:
       hono:
         specifier: ^4.8.9
         version: 4.10.7
+      tsx:
+        specifier: ^4.7.0
+        version: 4.21.0
       zod:
         specifier: ^4.1.13
         version: 4.1.13
@@ -687,8 +699,20 @@ packages:
   '@adraffy/ens-normalize@1.11.1':
     resolution: {integrity: sha512-nhCBV3quEgesuf7c7KYfperqSS14T8bYuvJ8PcLJp6znkZpFc0AuW4qBtr8eKVyPPe/8RSr7sglCWPU5eaxwKQ==}
 
+  '@ai-sdk/azure@2.0.82':
+    resolution: {integrity: sha512-Bpab51ETBB4adZC1xGMYsryL/CB8j1sA+t5aDqhRv3t3WRLTxhaBDcFKtQTIuxiEQTFosz9Q2xQqdfBvQm5jHw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
   '@ai-sdk/gateway@2.0.17':
     resolution: {integrity: sha512-oVAG6q72KsjKlrYdLhWjRO7rcqAR8CjokAbYuyVZoCO4Uh2PH/VzZoxZav71w2ipwlXhHCNaInGYWNs889MMDA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/openai@2.0.80':
+    resolution: {integrity: sha512-tNHuraF11db+8xJEDBoU9E3vMcpnHFKRhnLQ3DQX2LnEzfPB9DksZ8rE+yVuDN1WRW9cm2OWAhgHFgVKs7ICuw==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -8671,6 +8695,13 @@ snapshots:
 
   '@adraffy/ens-normalize@1.11.1': {}
 
+  '@ai-sdk/azure@2.0.82(zod@4.1.13)':
+    dependencies:
+      '@ai-sdk/openai': 2.0.80(zod@4.1.13)
+      '@ai-sdk/provider': 2.0.0
+      '@ai-sdk/provider-utils': 3.0.18(zod@4.1.13)
+      zod: 4.1.13
+
   '@ai-sdk/gateway@2.0.17(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
@@ -8683,6 +8714,12 @@ snapshots:
       '@ai-sdk/provider': 2.0.0
       '@ai-sdk/provider-utils': 3.0.18(zod@4.1.13)
       '@vercel/oidc': 3.0.5
+      zod: 4.1.13
+
+  '@ai-sdk/openai@2.0.80(zod@4.1.13)':
+    dependencies:
+      '@ai-sdk/provider': 2.0.0
+      '@ai-sdk/provider-utils': 3.0.18(zod@4.1.13)
       zod: 4.1.13
 
   '@ai-sdk/provider-utils@3.0.18(zod@3.25.76)':

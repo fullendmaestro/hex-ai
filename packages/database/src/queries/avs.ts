@@ -23,6 +23,25 @@ export async function getMonitoredAVSByChain(chainId: number) {
     );
 }
 
+export async function getStoredAVSByChain(chainId: number) {
+  return await db
+    .select({
+      id: monitoredAVS.id,
+      address: monitoredAVS.address,
+      chainId: monitoredAVS.chainId,
+      name: monitoredAVS.name,
+      description: monitoredAVS.description,
+      isActive: monitoredAVS.isActive,
+      metadata: monitoredAVS.metadata,
+      createdAt: monitoredAVS.createdAt,
+      updatedAt: monitoredAVS.updatedAt,
+    })
+    .from(monitoredAVS)
+    .where(
+      and(eq(monitoredAVS.chainId, chainId), eq(monitoredAVS.isActive, true))
+    );
+}
+
 // Get monitored AVS by address
 export async function getMonitoredAVSByAddress(address: string) {
   return await db

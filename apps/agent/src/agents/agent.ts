@@ -4,6 +4,7 @@ import { getStakerAgent } from "./chat/stacker-agent/agent";
 import { getOperatorAgent } from "./chat/operator-agent/agent";
 import { getAVSAgent } from "./chat/avs-agent/agent";
 import { getRewardsAgent } from "./chat/rewards-agent/agent";
+import { getModel } from "../config/model";
 
 /**
  * Creates and configures the EigenLayer coordinator agent.
@@ -52,7 +53,7 @@ export const getRootAgent = async () => {
       
       Coordinate cross-agent workflows and handle error recovery. Use available EVM MCP tools for contract interactions.`
     )
-    .withModel(env.LLM_MODEL)
+    .withModel(getModel())
     .withSubAgents([stakerAgent, operatorAgent, avsAgent, rewardsAgent])
     .build();
 };

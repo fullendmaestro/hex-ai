@@ -6,37 +6,56 @@ import {
   jsonb,
   boolean,
 } from "drizzle-orm/pg-core";
+import { InferSelectModel } from "drizzle-orm/table";
 
-// Monitored AVS - Essential fields for tracking
+/**
+ * Monitored AVS Table
+ *
+ * Stores AVS being tracked by the system with AI-generated analysis.
+ * The `analysis` field contains the complete structured output from the workflow.
+ */
 export const monitoredAVS = pgTable("monitored_avs", {
   id: text("id").primaryKey(),
   address: text("address").notNull().unique(),
-  chainId: integer("chain_id").notNull(), // 1 for mainnet, 17000 for holesky
+  chainId: integer("chain_id").notNull(), // 1=mainnet, 17000=holesky
   name: text("name"),
   description: text("description"),
   isActive: boolean("is_active").default(true).notNull(),
-  riskScore: text("risk_score"), // AI-generated risk assessment: 'low', 'medium', 'high'
-  riskFactors: jsonb("risk_factors"), // Detailed risk analysis breakdown
-  generatedSummary: text("generated_summary"), // AI-generated comprehensive summary
-  lastAnalyzedAt: timestamp("last_analyzed_at"), // Timestamp of last workflow analysis
-  metadata: jsonb("metadata"), // Store additional metadata from EigenExplorer
+
+  // AI Analysis Field (structured output from workflow)
+  analysis: jsonb("analysis"), // Complete AVSAnalysisSummary from workflow
+  lastAnalyzedAt: timestamp("last_analyzed_at"), // Last analysis timestamp
+
+  // Metadata from external sources
+  metadata: jsonb("metadata"), // EigenExplorer API data, TVL, operators count, etc.
+
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// Monitored Operators - Essential fields for tracking
+export type AVS = InferSelectModel<typeof monitoredAVS>;
+
+/**
+ * Monitored Operators Table
+ *
+ * Stores operators being tracked by the system with AI-generated analysis.
+ * The `analysis` field contains the complete structured output from the workflow.
+ */
 export const monitoredOperators = pgTable("monitored_operators", {
   id: text("id").primaryKey(),
   address: text("address").notNull().unique(),
-  chainId: integer("chain_id").notNull(), // 1 for mainnet, 17000 for holesky
+  chainId: integer("chain_id").notNull(), // 1=mainnet, 17000=holesky
   name: text("name"),
   description: text("description"),
   isActive: boolean("is_active").default(true).notNull(),
-  riskScore: text("risk_score"), // AI-generated risk assessment: 'low', 'medium', 'high'
-  riskFactors: jsonb("risk_factors"), // Detailed risk analysis breakdown
-  generatedSummary: text("generated_summary"), // AI-generated comprehensive summary
-  lastAnalyzedAt: timestamp("last_analyzed_at"), // Timestamp of last workflow analysis
-  metadata: jsonb("metadata"), // Store additional metadata from EigenExplorer
+
+  // AI Analysis Field (structured output from workflow)
+  analysis: jsonb("analysis"), // Complete OperatorAnalysisSummary from workflow
+  lastAnalyzedAt: timestamp("last_analyzed_at"), // Last analysis timestamp
+
+  // Metadata from external sources
+  metadata: jsonb("metadata"), // EigenExplorer API data, AVS count, stake info, etc.
+
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

@@ -5,17 +5,22 @@
     "build": "tsc",
     "dev-cli": "adk serve",
     "dev": "tsx watch src/index.ts",
+    "workflow:avs": "tsx watch ./src/scripts/runAVSWorkflow.ts",
     "start": "node dist/index.js",
     "clean": "rimraf dist",
     "prebuild": "pnpm clean"
   },
   "dependencies": {
+    "@ai-sdk/azure": "^2.0.82",
+    "@ai-sdk/provider": "^2.0.0",
+    "@hex-ai/database": "workspace:*",
     "@hono/node-server": "^1.19.6",
     "@iqai/adk": "^0.5.6",
     "axios": "^1.13.2",
     "dedent": "^1.7.0",
     "dotenv": "^17.2.3",
     "hono": "^4.8.9",
+    "tsx": "^4.7.0",
     "zod": "^4.1.13"
   },
   "devDependencies": {
