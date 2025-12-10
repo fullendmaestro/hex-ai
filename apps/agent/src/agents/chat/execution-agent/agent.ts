@@ -8,6 +8,7 @@ import {
   clearWalletStateTool,
   viewWalletStateTool,
 } from "../../shared/wallet-state-tools";
+import { getModel } from "../../../config/model";
 
 export const getExecutionAgent = async () => {
   const tools = await getEvmMcpTools();
@@ -73,7 +74,7 @@ export const getExecutionAgent = async () => {
       Important:
       - Use wallet address: {wallet.address} for all transactions except explicitly asked not to
       `,
-    model: env.LLM_MODEL,
+    model: getModel(),
     tools: [
       ...tools,
       setWalletAddressTool,
