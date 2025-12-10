@@ -5,7 +5,9 @@
     "build": "tsc",
     "dev-cli": "adk serve",
     "dev": "tsx watch src/index.ts",
-    "workflow:avs": "tsx watch ./src/scripts/runAVSWorkflow.ts",
+    "workflow:avs": "tsx ./src/scripts/runAVSWorkflow.ts",
+    "workflow:avs:auto": "tsx ./src/scripts/runAVSWorkflow.ts --auto",
+    "workflow:avs:skip": "tsx ./src/scripts/runAVSWorkflow.ts --skip",
     "start": "node dist/index.js",
     "clean": "rimraf dist",
     "prebuild": "pnpm clean"

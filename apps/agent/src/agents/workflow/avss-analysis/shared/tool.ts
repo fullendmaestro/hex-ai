@@ -119,9 +119,33 @@ export const fetchAVSInfo = createTool({
     chainId: z.number().describe("Chain ID (1=mainnet, 17000=holesky)"),
   }),
   fn: async ({ address, chainId }) => {
-    // TODO: Implement Eigen Explorer API call
-    // API endpoint pattern: https://api.eigenexplorer.com/api/v1/${chainId}/avs/${address}
-    return { success: true, address, chainId, data: "AVS basic info" };
+    try {
+      const baseUrl =
+        chainId === 17000
+          ? "https://api-holesky.eigenexplorer.com"
+          : "https://api.eigenexplorer.com";
+
+      const apiKey = process.env.EIGENEXPLORER_API_KEY;
+      const headers = apiKey ? { "x-api-token": apiKey } : {};
+
+      const response = await axios.get(`${baseUrl}/avs/${address}`, {
+        headers,
+      });
+
+      return {
+        success: true,
+        address,
+        chainId,
+        data: response.data,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        address,
+        chainId,
+        error: error.message || "Failed to fetch AVS info",
+      };
+    }
   },
 });
 
@@ -133,9 +157,34 @@ export const fetchAVSOperators = createTool({
     chainId: z.number().describe("Chain ID (1=mainnet, 17000=holesky)"),
   }),
   fn: async ({ address, chainId }) => {
-    // TODO: Implement Eigen Explorer API call
-    // API endpoint pattern: https://api.eigenexplorer.com/api/v1/${chainId}/avs/${address}/operators
-    return { success: true, address, chainId, operators: [] };
+    try {
+      const baseUrl =
+        chainId === 17000
+          ? "https://api-holesky.eigenexplorer.com"
+          : "https://api.eigenexplorer.com";
+
+      const apiKey = process.env.EIGENEXPLORER_API_KEY;
+      const headers = apiKey ? { "x-api-token": apiKey } : {};
+
+      const response = await axios.get(`${baseUrl}/avs/${address}/operators`, {
+        headers,
+      });
+
+      return {
+        success: true,
+        address,
+        chainId,
+        operators: response.data?.data || [],
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        address,
+        chainId,
+        operators: [],
+        error: error.message || "Failed to fetch AVS operators",
+      };
+    }
   },
 });
 
@@ -147,9 +196,42 @@ export const fetchAVSTVL = createTool({
     chainId: z.number().describe("Chain ID (1=mainnet, 17000=holesky)"),
   }),
   fn: async ({ address, chainId }) => {
-    // TODO: Implement TVL calculation from Eigen Explorer or on-chain data
-    // API endpoint pattern: https://api.eigenexplorer.com/api/v1/${chainId}/avs/${address}/tvl
-    return { success: true, address, chainId, tvl: "0" };
+    try {
+      const baseUrl =
+        chainId === 17000
+          ? "https://api-holesky.eigenexplorer.com"
+          : "https://api.eigenexplorer.com";
+
+      const apiKey = process.env.EIGENEXPLORER_API_KEY;
+      const headers = apiKey ? { "x-api-token": apiKey } : {};
+
+      // Fetch AVS info which may contain TVL data
+      const response = await axios.get(`${baseUrl}/avs/${address}`, {
+        headers,
+      });
+
+      // Calculate TVL from shares data if available
+      const shares = response.data?.shares || [];
+      const totalShares = shares.reduce((sum: number, share: any) => {
+        return sum + (parseFloat(share.totalShares || "0") || 0);
+      }, 0);
+
+      return {
+        success: true,
+        address,
+        chainId,
+        tvl: totalShares.toString(),
+        shares_count: shares.length,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        address,
+        chainId,
+        tvl: "0",
+        error: error.message || "Failed to fetch AVS TVL",
+      };
+    }
   },
 });
 
@@ -165,8 +247,8 @@ export const fetchGitHubActivity = createTool({
     repo: z.string().describe("GitHub repo (owner/repo)"),
   }),
   fn: async ({ repo }) => {
-    // TODO: Implement GitHub API integration
-    return { repo, commits: 0, stars: 0, forks: 0 };
+    const { getMockGitHubActivity } = await import("./mocks");
+    return getMockGitHubActivity(repo);
   },
 });
 
@@ -178,8 +260,8 @@ export const fetchSocialSentiment = createTool({
     query: z.string().describe("Search query"),
   }),
   fn: async ({ query }) => {
-    // TODO: Implement Twitter/X API integration
-    return { query, sentiment: "neutral", mentions: 0 };
+    const { getMockSocialSentiment } = await import("./mocks");
+    return getMockSocialSentiment(query);
   },
 });
 
@@ -191,7 +273,7 @@ export const fetchAuditReports = createTool({
     project: z.string().describe("Project name"),
   }),
   fn: async ({ project }) => {
-    // TODO: Implement audit report fetching
-    return { project, audits: [] };
+    const { getMockAuditReport } = await import("./mocks");
+    return getMockAuditReport(project);
   },
 });
