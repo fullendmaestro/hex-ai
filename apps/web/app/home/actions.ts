@@ -50,7 +50,13 @@ export interface OperatorData {
 
 export async function fetchAVSData(): Promise<AVSData[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    // Use absolute URLs for internal API routes
+    // In production, use NEXT_PUBLIC_APP_URL, otherwise construct from headers
+    const baseUrl =
+      process.env.NEXT_PUBLIC_APP_URL ||
+      (process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000");
 
     // Fetch monitored AVS with analysis from database
     const monitoredResponse = await fetch(
@@ -103,7 +109,12 @@ export async function fetchAVSData(): Promise<AVSData[]> {
 
 export async function fetchOperatorsData(): Promise<OperatorData[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    // Use absolute URLs for internal API routes
+    const baseUrl =
+      process.env.NEXT_PUBLIC_APP_URL ||
+      (process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000");
     const response = await fetch(`${baseUrl}/api/operators?chainId=1`, {
       next: { revalidate: 300 }, // Revalidate every 5 minutes
     });
