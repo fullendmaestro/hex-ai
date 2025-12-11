@@ -155,14 +155,14 @@ async function main() {
     // Check if user approval is needed
     if (!autoApproveRemaining) {
       const userDecision = await promptUserApproval(
-        currentAVS.name,
+        currentAVS.name || "Unknown AVS",
         i,
         monitoredAVSs.length
       );
 
       if (userDecision === "skip") {
-        console.log(`  ⏭️  Skipped ${currentAVS.name}`);
-        skipped.push(currentAVS.name);
+        console.log(`  ⏭️  Skipped ${currentAVS.name || "Unknown AVS"}`);
+        skipped.push(currentAVS.name || "Unknown AVS");
         continue;
       } else if (userDecision === "auto") {
         autoApproveRemaining = true;

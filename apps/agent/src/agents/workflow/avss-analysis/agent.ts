@@ -1,4 +1,4 @@
-import { AVS } from "@hex-ai/database/queries";
+import type { MonitoredAVS } from "@hex-ai/database/queries";
 
 import { AgentBuilder } from "@iqai/adk";
 import { getModel } from "../../../config/model";
@@ -19,8 +19,8 @@ import type { AVSAnalysisSummary } from "./shared/schemas";
  * Note: This workflow runs for each monitored AVS
  */
 export const getAVSAnalysisWorkflow = async (
-  monitoredAVSs: AVS[],
-  currentAVS: AVS
+  monitoredAVSs: MonitoredAVS[],
+  currentAVS: MonitoredAVS
 ) => {
   const webResearcher = await getAVSWebResearcher();
   const socialAnalyst = await getAVSSocialAnalyst();
