@@ -68,8 +68,8 @@ COPY --from=builder /app/packages/evm-mcp-server/build ./packages/evm-mcp-server
 # Copy built ODOS MCP server from builder stage
 COPY --from=builder /app/packages/mcp-odos/dist ./packages/mcp-odos/dist
 
-# Install production dependencies
-RUN pnpm install --frozen-lockfile --prod
+# Install production dependencies (ignore scripts to skip husky and other dev-only prepare scripts)
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 
 # Change to the agent directory
 WORKDIR /app/apps/agent
