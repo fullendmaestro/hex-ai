@@ -2,7 +2,6 @@
 
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { env } from "../env";
 
 /**
  * useApiUrl
