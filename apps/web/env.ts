@@ -11,6 +11,7 @@ config();
  * - GOOGLE_API_KEY: Required API key for Google/Gemini model access
  * - LLM_MODEL: LLM model to use (defaults to "gemini-2.5-flash")
  */
+/**
 export const envSchema = z.object({
   NEXT_PUBLIC_AGENT_API_URL: z
     .string()
@@ -21,9 +22,9 @@ export const envSchema = z.object({
     .string()
     .describe("API key for EigenExplorer access"),
 });
-
+ */
 /**
  * Validated environment variables parsed from process.env.
  * Throws an error if required environment variables are missing or invalid.
  */
-export const env = envSchema.parse(process.env);
+// export const env = envSchema.parse(process.env);

@@ -18,6 +18,6 @@ export function useApiUrl(): string {
     const port = searchParams.get("port");
     if (apiUrl && apiUrl.length > 0) return apiUrl;
     if (port && port.length > 0) return `http://localhost:${port}`;
-    return env.NEXT_PUBLIC_AGENT_API_URL || "http://localhost:8042";
+    return process.env.NEXT_PUBLIC_AGENT_API_URL || "http://localhost:8042";
   }, [searchParams]);
 }
