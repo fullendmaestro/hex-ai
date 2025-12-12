@@ -3,6 +3,8 @@ import { ERC20BalanceBody } from "./erc20-balance";
 import { TransactionBuilderBody } from "./transaction-builder";
 import { ChainInfoBody } from "./chain-info";
 import { NFTInfoBody } from "./nft-info";
+import { OdosQuoteBody } from "./odos-quote";
+import { OdosSwapBody } from "./odos-swap";
 
 const TOOL_BODY_COMPONENTS: Record<
   string,
@@ -20,6 +22,10 @@ const TOOL_BODY_COMPONENTS: Record<
   build_transfer_erc20: TransactionBuilderBody,
   build_approve_token: TransactionBuilderBody,
   build_write_contract: TransactionBuilderBody,
+
+  // ODOS liquidity tools
+  ODOS_GET_QUOTE: OdosQuoteBody,
+  ODOS_SWAP: OdosSwapBody,
 };
 
 /**

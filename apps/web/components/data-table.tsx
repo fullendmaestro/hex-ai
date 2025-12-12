@@ -85,7 +85,7 @@ const avsColumns: ColumnDef<AVSData>[] = [
           />
         )}
         <div className="flex flex-col gap-1">
-          <span className="font-semibold text-base">
+          <span className="font-semibold text-base max-w-48 truncate">
             {row.original.metadataName || "Unknown"}
           </span>
           <span className="font-mono text-xs text-muted-foreground">
@@ -273,7 +273,7 @@ const operatorColumns: ColumnDef<OperatorData>[] = [
           />
         )}
         <div className="flex flex-col gap-1">
-          <span className="font-semibold text-base">
+          <span className="font-semibold text-base max-w-48 truncate">
             {row.original.metadataName || "Unknown Operator"}
           </span>
           <span className="font-mono text-xs text-muted-foreground">

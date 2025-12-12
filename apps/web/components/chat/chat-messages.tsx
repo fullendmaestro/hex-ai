@@ -66,7 +66,7 @@ export function ChatMessages({
                   className="flex justify-end animate-in fade-in slide-in-from-bottom-2 duration-300"
                 >
                   <div className="rounded-2xl px-3 py-2 max-w-[80%] bg-foreground text-background">
-                    <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-all">
+                    <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-words">
                       {textContent}
                     </p>
                   </div>
@@ -86,7 +86,7 @@ export function ChatMessages({
                       return (
                         <Response
                           key={partIndex}
-                          className="text-[15px] leading-[1.5] whitespace-pre-wrap break-all text-foreground"
+                          className="text-[15px] text-foreground"
                         >
                           {part.text}
                         </Response>
@@ -155,7 +155,7 @@ export function ChatMessages({
                 className="flex justify-end animate-in fade-in slide-in-from-bottom-2 duration-300"
               >
                 <div className="rounded-2xl px-3 py-2 max-w-[80%] bg-foreground text-background">
-                  <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-all">
+                  <p className="text-[15px] leading-[1.75] whitespace-pre-wrap break-words">
                     {legacyMessage.content}
                   </p>
                 </div>
@@ -169,7 +169,7 @@ export function ChatMessages({
               className="group flex flex-col animate-in fade-in slide-in-from-bottom-2 duration-300"
             >
               <div className="max-w-full">
-                <Response className="text-[15px] leading-[1.5] whitespace-pre-wrap break-all text-foreground">
+                <Response className="text-[15px] text-foreground">
                   {legacyMessage.content}
                 </Response>
               </div>

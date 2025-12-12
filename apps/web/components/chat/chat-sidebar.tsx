@@ -8,6 +8,7 @@ import { useChat } from "@/hooks/useChat";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
 import { Greeting } from "./greeting";
+import { SuggestedActions } from "./suggested-actions";
 import { useChatContext } from "./chat-context";
 
 interface ChatSidebarProps {
@@ -102,7 +103,12 @@ export function ChatSidebar({
         {/* Messages Area */}
         <div className="flex-1 overflow-hidden bg-background">
           {messages.length === 0 && !status ? (
-            <Greeting />
+            <div className="flex flex-col h-full">
+              <Greeting />
+              <div className="mt-auto pb-4">
+                <SuggestedActions onSend={handleSend} />
+              </div>
+            </div>
           ) : (
             <ChatMessages
               messages={messages}
