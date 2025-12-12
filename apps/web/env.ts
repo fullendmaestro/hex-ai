@@ -12,9 +12,14 @@ config();
  * - LLM_MODEL: LLM model to use (defaults to "gemini-2.5-flash")
  */
 export const envSchema = z.object({
-  ADK_DEBUG: z.coerce.boolean().default(false),
-  GOOGLE_API_KEY: z.string().min(1, "GOOGLE_API_KEY cannot be empty"),
-  LLM_MODEL: z.string().default("gemini-2.5-flash"),
+  NEXT_PUBLIC_AGENT_API_URL: z
+    .string()
+    .url()
+    .describe("Base URL for the Agent API")
+    .default("http://localhost:8042"),
+  EIGENEXPLORER_API_KEY: z
+    .string()
+    .describe("API key for EigenExplorer access"),
 });
 
 /**

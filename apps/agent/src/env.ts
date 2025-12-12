@@ -18,6 +18,7 @@ export const envSchema = z.object({
   AZURE_OPENAI_RESOURCE_NAME: z.string(),
   AZURE_OPENAI_API_VERSION: z.string(),
   AZURE_DEPLOYMENT_NAME: z.string(),
+  WEB_APP_URL: z.string().url(),
 });
 
 /**

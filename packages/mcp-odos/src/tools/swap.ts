@@ -40,7 +40,8 @@ const swapParamsSchema = z.object({
 
 export const swapTool = {
   name: "ODOS_SWAP",
-  description: "Execute a swap transaction",
+  description:
+    "Build a swap transaction using Odos Router. Returns unsigned transaction data to be signed and submitted by the client. May also return an approval transaction if token allowance is required.",
   parameters: swapParamsSchema,
   execute: async (args: z.infer<typeof swapParamsSchema>) => {
     try {
@@ -90,16 +91,45 @@ export const swapTool = {
         const builtSwap = await executeSwapService.execute(txn, fromAddress);
 
         if (args.prettyFormat) {
-          const approvalText = approval
-            ? `Approval transaction prepared (unsigned): ${approval.serialized}`
-            : "No approval required";
+          const result: any = {
+            network: chainObject.name,
+            chainId: chainObject.id,
+            quote: {
+              inToken: quote.inTokens[0],
+              inAmount: quote.inAmounts[0],
+              outToken: quote.outTokens[0],
+              outAmount: quote.outAmounts[0],
+              pathId: quote.pathId,
+            },
+            message: "Transactions prepared. Sign and submit with your wallet.",
+          };
 
-          const swapText = await executeSwapService.formatWithConfirmation(
-            txn,
-            builtSwap
-          );
+          if (approval) {
+            result.approvalTransaction = {
+              from: approval.request.from,
+              to: approval.request.to,
+              data: approval.request.data,
+              chainId: approval.request.chainId,
+            };
+            result.serializedApproval = approval.serialized;
+            result.approvalRequired = true;
+          } else {
+            result.approvalRequired = false;
+          }
 
-          return `${approvalText}\n\n${swapText}`;
+          result.swapTransaction = {
+            from: builtSwap.request.from,
+            to: builtSwap.request.to,
+            data: builtSwap.request.data,
+            value: builtSwap.request.value?.toString(),
+            gas: builtSwap.request.gas?.toString(),
+            gasPrice: builtSwap.request.gasPrice?.toString(),
+            nonce: builtSwap.request.nonce,
+            chainId: builtSwap.request.chainId,
+          };
+          result.serializedSwap = builtSwap.serialized;
+
+          return JSON.stringify(result, null, 2);
         }
 
         return JSON.stringify({ approval, swap: builtSwap }, null, 2);

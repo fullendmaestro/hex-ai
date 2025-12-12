@@ -112,10 +112,10 @@ export class ExecuteSwapService {
     }
   }
 
-  async formatWithConfirmation(
+  formatWithConfirmation(
     txn: AssembleResponseTxn,
     built: { request: any; serialized: `0x${string}` }
-  ) {
+  ): string {
     const publicClient = this.walletService.getPublicClient();
     const chainName = publicClient?.chain?.name ?? "unknown";
 

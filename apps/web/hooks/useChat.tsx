@@ -11,10 +11,9 @@ import {
   type SessionResponseDto,
 } from "@/lib/Api";
 import { UIMessage, UIMessagePart, TextUIPart, ToolUIPart } from "@/types";
-// Add these imports for wallet integration
 import { useAccount, useChainId, useChains } from "wagmi";
+import { useApiUrl } from "./use-api-url";
 
-// Type definitions for event content structure
 interface EventContentPart {
   text?: string;
   functionCall?: {
@@ -57,40 +56,44 @@ interface FunctionResponseWrapper {
   };
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8042";
-
 export function useChat() {
   const queryClient = useQueryClient();
-  const apiClient = new Api({ baseUrl: API_URL });
+  const apiUrl = useApiUrl();
+  const apiClient = useMemo(
+    () => (apiUrl ? new Api({ baseUrl: apiUrl }) : null),
+    [apiUrl]
+  );
+
   const [messages, setMessages] = useState<UIMessage[]>([]);
   const [status, setStatus] = useState<boolean>(false);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const isCreatingSessionDuringMessageSend = useRef(false);
 
-  // Add wallet hooks
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const chains = useChains();
   const chain = chains.find((c) => c.id === chainId);
 
-  // Fetch available agents
-  const { data: agents = [] } = useQuery({
-    queryKey: ["agents", API_URL],
+  const {
+    data: agents = [],
+    isLoading: loadingAgents,
+    error: agentsError,
+    refetch: refreshAgents,
+  } = useQuery({
+    queryKey: ["agents", apiUrl],
     queryFn: async (): Promise<AgentListItemDto[]> => {
       if (!apiClient) throw new Error("API URL is required");
       const res = await apiClient.api.agentsControllerListAgents();
       const data: AgentsListResponseDto = res.data;
       return data.agents;
     },
-    enabled: !!API_URL,
+    enabled: !!apiClient,
     staleTime: 30000,
     retry: 2,
   });
 
-  // Root agent is always the first agent
   const rootAgent = agents[0] || null;
 
-  // Transform server events to UI messages
   const transformEventsToUIMessages = useCallback(
     (events: EventItemDto[]): UIMessage[] => {
       if (!events.length) return [];
@@ -260,11 +263,11 @@ export function useChat() {
     []
   );
 
-  // Fetch events for session
+  // Fetch events for session - following useAgent pattern
   const { data: sessionEvents } = useQuery({
     queryKey: [
       "agent-events",
-      API_URL,
+      apiUrl,
       rootAgent?.relativePath,
       currentSessionId,
     ],
@@ -282,14 +285,13 @@ export function useChat() {
     staleTime: 10000,
   });
 
-  // Update messages when events change
+  // Update messages when events change - same as your implementation
   useEffect(() => {
     if (sessionEvents?.events) {
       const transformedMessages = transformEventsToUIMessages(
         sessionEvents.events
       );
 
-      // Preserve optimistic user messages that haven't been confirmed by server yet
       setMessages((prevMessages) => {
         const optimisticMessages = prevMessages.filter(
           (msg) =>
@@ -310,15 +312,7 @@ export function useChat() {
     }
   }, [sessionEvents, transformEventsToUIMessages, currentSessionId]);
 
-  useEffect(() => {
-    console.log("Messages updated: ", messages);
-    console.log("Session Events updated: ", sessionEvents);
-    console.log("Current Session ID updated: ", currentSessionId);
-    console.log("Root Agent: ", rootAgent);
-  }, [messages, sessionEvents, currentSessionId, rootAgent]);
-
-  // Create session mutation
-  // Create new session mutation
+  // Create session mutation - following useSession pattern
   const createSessionMutation = useMutation({
     mutationFn: async (): Promise<SessionResponseDto> => {
       if (!apiClient || !rootAgent) throw new Error("Root agent required");
@@ -331,36 +325,26 @@ export function useChat() {
       return response.data;
     },
     onSuccess: async (session) => {
-      // Set the new session as current
       setCurrentSessionId(session.id);
 
-      // Only clear messages if this is an intentional new chat (not during message send)
       if (!isCreatingSessionDuringMessageSend.current) {
         setMessages([]);
       }
 
-      // Reset the flag
       isCreatingSessionDuringMessageSend.current = false;
 
-      // Switch to the new session on the server side
       await apiClient?.api.sessionsControllerSwitchSession(
         encodeURIComponent(rootAgent!.relativePath),
         session.id
       );
 
-      // Invalidate events query to start fetching for new session
       queryClient.invalidateQueries({
-        queryKey: [
-          "agent-events",
-          API_URL,
-          rootAgent?.relativePath,
-          session.id,
-        ],
+        queryKey: ["agent-events", apiUrl, rootAgent?.relativePath, session.id],
       });
     },
   });
 
-  // Send message mutation
+  // Send message mutation - following useAgent pattern
   const sendMessageMutation = useMutation({
     mutationFn: async (content: string) => {
       if (!apiClient || !rootAgent) {
@@ -376,7 +360,6 @@ export function useChat() {
 
       setStatus(true);
 
-      // Add user message immediately for instant UI feedback
       const userMessage: UIMessage = {
         id: `user_${Date.now()}_${Math.random()}`,
         role: "user",
@@ -408,7 +391,7 @@ export function useChat() {
       queryClient.invalidateQueries({
         queryKey: [
           "agent-events",
-          API_URL,
+          apiUrl,
           rootAgent?.relativePath,
           result.sessionId || currentSessionId,
         ],
@@ -435,7 +418,7 @@ export function useChat() {
     createSessionMutation.mutate();
   }, [createSessionMutation]);
 
-  // Update session state on wallet/network changes
+  // Update session state on wallet/network changes - same as your implementation
   useEffect(() => {
     if (!currentSessionId || !rootAgent || !isConnected || !address) {
       return;
@@ -443,7 +426,7 @@ export function useChat() {
 
     const updateSessionState = async () => {
       try {
-        await apiClient.api.stateControllerUpdateState(
+        await apiClient?.api.stateControllerUpdateState(
           encodeURIComponent(rootAgent.relativePath),
           currentSessionId,
           {
@@ -453,7 +436,7 @@ export function useChat() {
         );
 
         if (chain) {
-          await apiClient.api.stateControllerUpdateState(
+          await apiClient?.api.stateControllerUpdateState(
             encodeURIComponent(rootAgent.relativePath),
             currentSessionId,
             {
@@ -462,7 +445,7 @@ export function useChat() {
             }
           );
 
-          await apiClient.api.stateControllerUpdateState(
+          await apiClient?.api.stateControllerUpdateState(
             encodeURIComponent(rootAgent.relativePath),
             currentSessionId,
             {
@@ -472,14 +455,8 @@ export function useChat() {
           );
         }
 
-        // Invalidate state queries to refresh UI
         queryClient.invalidateQueries({
-          queryKey: [
-            "state",
-            API_URL,
-            rootAgent.relativePath,
-            currentSessionId,
-          ],
+          queryKey: ["state", apiUrl, rootAgent.relativePath, currentSessionId],
         });
       } catch (error) {
         console.error("Failed to update session state:", error);
@@ -494,7 +471,7 @@ export function useChat() {
     currentSessionId,
     rootAgent,
     apiClient,
-    API_URL,
+    apiUrl,
     queryClient,
   ]);
 
@@ -504,5 +481,12 @@ export function useChat() {
     sendMessage,
     stop,
     createNewSession,
+    agents,
+    rootAgent,
+    loadingAgents,
+    agentsError,
+    refreshAgents,
+    isSendingMessage: sendMessageMutation.isPending,
+    isCreatingSession: createSessionMutation.isPending,
   };
 }

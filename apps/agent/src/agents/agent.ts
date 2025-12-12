@@ -7,6 +7,7 @@ import { getRewardsAgent } from "./chat/rewards-agent/agent";
 import { getModel } from "../config/model";
 import { getExecutionAgent } from "./chat/execution-agent/agent";
 import { getAnalysisAgent } from "./chat/analysis-agent/agent";
+import { getLiquidityAgent } from "./chat/liquidity-agent/agent";
 
 /**
  * Creates and configures the EigenLayer coordinator agent.
@@ -25,6 +26,7 @@ export const getRootAgent = async () => {
   const rewardsAgent = await getRewardsAgent();
   const executionAgent = await getExecutionAgent();
   const analysisAgent = await getAnalysisAgent();
+  const liquidityAgent = await getLiquidityAgent();
 
   return AgentBuilder.create("hex_agents_coordinator")
     .withDescription(
@@ -41,6 +43,7 @@ export const getRootAgent = async () => {
       avsAgent,
       rewardsAgent,
       analysisAgent,
+      liquidityAgent,
     ])
     .build();
 };

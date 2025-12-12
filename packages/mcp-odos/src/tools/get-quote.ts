@@ -38,7 +38,8 @@ const getQuoteParamsSchema = z.object({
 
 export const getQuoteTool = {
   name: "ODOS_GET_QUOTE",
-  description: "Get a quote for a swap or exchange operation",
+  description:
+    "Get a quote for a swap or exchange operation. This is a read-only operation that returns pricing information without executing any transactions.",
   parameters: getQuoteParamsSchema,
   execute: async (args: z.infer<typeof getQuoteParamsSchema>) => {
     try {
