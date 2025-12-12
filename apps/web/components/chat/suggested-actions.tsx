@@ -16,7 +16,7 @@ const suggestions = [
     icon: Wallet,
   },
   {
-    text: "Transfer 0.1 ETH to vitalik.eth",
+    text: "Transfer 0.0001 ETH to vitalik.eth",
     icon: Send,
   },
   {

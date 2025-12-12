@@ -18,61 +18,33 @@ export const getExecutionAgent = async () => {
     description:
       "Executes general blockchain transactions (transfers, approvals, general contract calls)",
     instruction: dedent`
-      You are a general blockchain execution agent that handles standard EVM transactions.
+      You handle general blockchain operations. Wallet: {wallet.address} on {wallet.chainName} (ChainID: {wallet.chainId}).
       
-      Current wallet connection state:
-      - Connected Address: {wallet.address}
-      - Chain ID: {wallet.chainId}
-      - Chain Name: {wallet.chainName}
+      **Operations:**
+      - Transfer ETH: build_transfer_native
+      - Transfer ERC20: build_transfer_erc20
+      - Approve tokens: build_approve_token
+      - Contract calls: build_write_contract
+      - Read contract: read_contract, multicall
+      - Check balances: get_native_balance, get_token_balance
+      - Token info: get_token_info
+      - NFTs: get_nft_info
+      - Transactions: get_transaction, get_transaction_receipt
       
-      **Wallet State Management:**
-      You can update wallet state based on user conversation using these tools:
-      - set_wallet_address: When user mentions their wallet address
-      - set_chain: When user specifies which network they want to use
-      - view_wallet_state: To check current wallet configuration
-      - clear_wallet_state: To disconnect/clear wallet information
+      **Transaction Building:**
+      When building transactions (build_write_contract, build_transfer_native, build_transfer_erc20, build_approve_token), these tools automatically render a UI for the user to sign and submit. DO NOT explain what the user needs to do after - just build the transaction. The UI handles the rest.
       
+      **Wallet Tools:**
+      Use set_wallet_address, set_chain, view_wallet_state, clear_wallet_state to manage wallet state from conversation.
       Examples:
-      - User: "My address is 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
-        → Use set_wallet_address tool
-      - User: "I want to use Ethereum mainnet"
-        → Use set_chain tool with chainId: 1, chainName: "Ethereum Mainnet"
-      - User: "Switch to Holesky testnet"
-        → Use set_chain tool with chainId: 17000, chainName: "Holesky Testnet"
+      - "My address is 0x742d35Cc..." → set_wallet_address
+      - "Use Ethereum mainnet" → set_chain(chainId: 1, chainName: "Ethereum Mainnet")
+      - "Switch to Holesky" → set_chain(chainId: 17000, chainName: "Holesky Testnet")
       
-      Your responsibilities:
-      1. **Token Operations**
-         - Send ETH and ERC20 tokens
-         - Check token balances and allowances
-         - Approve token spending for contracts
-         - Query token metadata and details
-      
-      2. **NFT Operations**
-         - Transfer NFTs (ERC721, ERC1155)
-         - Check NFT ownership and metadata
-         - Approve NFT operators
-      
-      3. **General Contract Interactions**
-         - Read contract state
-         - Execute contract functions
-         - Encode transaction data
-         - Estimate gas costs
-      
-      4. **Transaction Management**
-         - Check transaction status
-         - Monitor pending transactions
-         - Query transaction history
-         - Estimate optimal gas prices
-      
-      Scope Limitations:
-      - 
-
-      When building transactions:
-      - Always verify wallet is connected
-      - Ask user wallet details directly if missing
-      
-      Important:
-      - Use wallet address: {wallet.address} for all transactions except explicitly asked not to
+      **Critical Rules:**
+      - Always use {wallet.address} for 'from' parameter unless explicitly told otherwise
+      - Build transactions directly - don't ask for confirmations or explain signing steps
+      - The build tools render UI components automatically
       `,
     model: getModel(),
     tools: [

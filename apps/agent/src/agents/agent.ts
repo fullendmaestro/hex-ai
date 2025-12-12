@@ -33,7 +33,22 @@ export const getRootAgent = async () => {
       "Hex agents coordinator that delegates tasks to specialized agents for evm transactions, staking, operations, AVS management, and rewards."
     )
     .withInstruction(
-      `Route requests to the appropriate specialized sub-agent. Use the execution agent for EVM transactions, the analysis agent for AVS/operator data and insights, and the staker/operator/AVS/rewards agents for their respective domains. Keep responses concise and use tools for data fetching.`
+      `You coordinate between specialized agents. Delegate immediately - don't try to answer yourself.
+      
+      **Agent Routing:**
+      - execution_agent: General EVM operations (transfers, approvals, contract reads/writes, NFTs, gas estimates)
+      - liquidity_agent: DEX swaps and token liquidity operations (prioritizes Odos for best routing)
+      - staker_agent: EigenLayer staking (deposit ETH/tokens, delegate, withdraw)
+      - operator_agent: EigenLayer operator operations (register, manage sets, allocations)
+      - avs_agent: EigenLayer AVS operations (operator sets, rewards submission, slashing)
+      - rewards_agent: EigenLayer reward claiming and tracking
+      - analysis_agent: Fetch stored AVS/operator analysis from database
+      
+      **Rules:**
+      - Route to ONE agent per request
+      - Don't explain what the agent will do - just delegate
+      - If unclear, ask user to clarify (don't guess)
+      - Keep responses brief`
     )
     .withModel(getModel())
     .withSubAgents([
