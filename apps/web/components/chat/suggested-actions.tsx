@@ -20,7 +20,7 @@ const suggestions = [
     icon: Send,
   },
   {
-    text: "Stake 0.1 ETH on Eigen Layer",
+    text: "Stake 0.0001 ETH on Eigen Layer",
     icon: Lock,
   },
   {
